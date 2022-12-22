@@ -24,11 +24,15 @@ const myPromiseThree = () => {
   });
 };
 
- const msg = async () => {
-   const a = await myPromiseOne();
-   const b = await myPromiseTwo();
-   const c = await myPromiseThree();
-   console.log(`${a} ${b} ${c}`);
- };
+const msg = async () => {
+  try {
+    const a = await myPromiseOne();
+    const b = await myPromiseTwo();
+    const c = await myPromiseThree();
+    console.log(`${a} ${b} ${c}`);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 msg();
