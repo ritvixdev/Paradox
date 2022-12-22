@@ -25,8 +25,12 @@ const myPromiseThree = () => {
 };
 
 const msg = async () => {
-  const [a,b,c] = await Promise.all([myPromiseOne(), myPromiseTwo(), myPromiseThree()])
-  console.log(`${a} ${b} ${c}`)
+  try {
+    const [a, b, c] = await Promise.all([myPromiseOne(),myPromiseTwo(), myPromiseThree() ]);
+    console.log(`${a} ${b} ${c}`);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 msg();
