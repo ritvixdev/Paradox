@@ -1,10 +1,19 @@
 //interview forEach exapmple
 
-const arr = ['a', 'b','c','d','e','f','g']
+const array = ['a', 'b','c','d','e','f','g']
 
-arr.forEach((element, index, array) => {
-    console.log(`${element} in index ${index} of array ${array}`)
+array.forEach((item, index, array) => {
+    console.log(`${item} in index ${index} of array ${array}`)
 })
+
+
+const arr = ['John', 'Sara', 'Jack', 'Andy', 'Paty'];
+
+arr.forEach((item, index, array) => {
+  array[index] = 'Hello ' + item;
+})
+
+console.log(arr)
 
 // The forEach method passes a callback function for each element of an array together with the following parameters:
 
