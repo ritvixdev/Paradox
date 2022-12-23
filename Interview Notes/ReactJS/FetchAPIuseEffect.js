@@ -1,4 +1,4 @@
-// React example to Call API by Fetch
+// React example to Call API by Fetch and use Effect
 
 import React, { useState, useEffect } from 'react';
 
