@@ -1,4 +1,4 @@
-// interview example of useState
+// interview example of useState()
 
 import React, { useState } from 'react';
 
