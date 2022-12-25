@@ -16,3 +16,9 @@ const App = () => {
 };
 
 export default App;
+
+// Defination
+
+// useStates: To manage states. Reaturns a stateful value and on updater function to update it.
+
+
