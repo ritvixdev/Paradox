@@ -56,7 +56,8 @@ import './style.css';
 
 // export default App;
 
-// cleanup usecase:
+
+// ===> cleanup usecase:
 // example of component being unmount is going to a new page or a new route in our
 // application where the component is no longer used.
 
