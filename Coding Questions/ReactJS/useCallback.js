@@ -1,4 +1,4 @@
-// interview exaple for useCallback
+// interview example for useCallback
 
 // Syantax
 // const cachedFn = useCallback(fn, dependencies)
