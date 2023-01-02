@@ -54,3 +54,7 @@ observable.subscribe();
 // Observables are cancelable
 // You can cancel observables by unsubscribing it using the unsubscribe method 
 // whereas promises don’t have such a feature.
+
+// Observables provide many operators
+// There are many operators like map, forEach, filter etc. Observables provide 
+// these whereas promises does not have any operators in their bucket.
