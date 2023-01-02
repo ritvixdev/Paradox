@@ -5,11 +5,11 @@
 //Invoking Obhservable in JavaScript
 
 import { Observable } from 'rxjs';
-let observable = new Observable(observer => {
-setTimeout(() => {
-observer.next('Hi This will invoke Observables')
-},5000)
-console.log('Observables invoked!');
+let observable = new Observable((observer) => {
+  setTimeout(() => {
+    observer.next('Hi This will invoke Observables');
+  }, 5000);
+  console.log('Observables invoked!');
 });
 observable.subscribe();
 
@@ -58,3 +58,5 @@ observable.subscribe();
 // Observables provide many operators
 // There are many operators like map, forEach, filter etc. Observables provide 
 // these whereas promises does not have any operators in their bucket.
+
+
