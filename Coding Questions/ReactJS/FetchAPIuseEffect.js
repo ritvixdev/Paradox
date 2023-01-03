@@ -3,23 +3,25 @@
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
-  const [pokemons, setPokemons] = useState([]);
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=10')
+    fetch('https://hub.dummyapis.com/employee?noofRecords=10&idStarts=1001')
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setPokemons(data.results);
+        setUser(data);
       })
       .catch((err) => console.log(err.message));
   }, []);
 
   return (
     <ul>
-      {pokemons.map(({name, url}) => (
-        <li key={url}>{name}</li>
-      ))}
+      {user.map((data, index) => {
+        return <li key={index}>{data.firstName}</li>;
+      })}
     </ul>
   );
 };
+
+export default App;
