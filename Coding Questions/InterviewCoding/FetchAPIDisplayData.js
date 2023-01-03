@@ -1,4 +1,4 @@
-// Example for Fetch API using Async/Await and Displaying the names
+// Example for Fetch API using Async/Await and Displaying the names in React
 
 import React, { useState, useEffect } from 'react';
 import './style.css';
@@ -8,12 +8,16 @@ const App = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(
-        'https://hub.dummyapis.com/employee?noofRecords=10&idStarts=1001'
-      );
-      const data = await response.json();
-      console.log(data);
-      setUser(data);
+      try {
+        const response = await fetch(
+          'https://hub.dummyapis.com/employee?noofRecords=10&idStarts=1001'
+        );
+        const data = await response.json();
+        console.log(data);
+        setUser(data);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchData();
@@ -30,3 +34,4 @@ const App = () => {
 };
 
 export default App;
+
