@@ -3,16 +3,16 @@
 import React, { useState, useEffect } from 'react';
 
 const App = () => {
-  const [pokemons, setPokemons] = useState([]);
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
-        'https://pokeapi.co/api/v2/pokemon?limit=10'
+        'https://hub.dummyapis.com/employee?noofRecords=10&idStarts=1001'
       );
       const data = await response.json();
       console.log(data);
-      setPokemons(data.results)
+      setUser(data);
     };
 
     fetchData();
@@ -20,9 +20,9 @@ const App = () => {
 
   return (
     <ul>
-      {pokemons.map(({ name, url }) => (
-        <li key={url}>{name}</li>
-      ))}
+      {user.map((data, index) => {
+        return <li key={index}>{data.firstName}</li>;
+      })}
     </ul>
   );
 };
