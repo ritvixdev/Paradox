@@ -1,7 +1,6 @@
 // Example for Fetch API using Async/Await and Displaying the names in React
 
 import React, { useState, useEffect } from 'react';
-import './style.css';
 
 const App = () => {
   const [user, setUser] = useState([]);
