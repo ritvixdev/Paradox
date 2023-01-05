@@ -13,5 +13,5 @@ console.log(count); // {apple: 2, mango: 3, orange: 1}
 console.log(count.apple); // 2
 console.log(count.mango); // 3
 
-//
+
 
