@@ -1,6 +1,7 @@
 // interview example for closures
 // https://www.freecodecamp.org/news/lets-learn-javascript-closures-66feb44f6a44/
 
+
 const numberGenerator = () => {
   // Local “free” variable that ends up within the closure
   var num = 1;
@@ -13,6 +14,7 @@ const numberGenerator = () => {
 
 var number = numberGenerator();
 number(); // 2
+
 
 // Explaination:
 
