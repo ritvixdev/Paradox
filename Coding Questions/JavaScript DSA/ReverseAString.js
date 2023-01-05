@@ -1,5 +1,35 @@
 // Reverse a String in JavaScript
 
+// ==> Reverse a String With a Decrementing For Loop
+
+function reverseString(str) {
+  var newString = "";
+  for (var i = str.length - 1; i >= 0; i--) {
+    newString += str[i];
+  }
+  return newString;
+}
+reverseString("hello");
+
+// ==> Reverse a String With Recursion
+
+function reverseString(str) {
+  if (str === "") return "";
+  else return reverseString(str.substr(1)) + str.charAt(0);
+}
+reverseString("hello");
+
+// Explain:
+
+// The substr() method returns the characters in a string beginning at the
+// specified location through the specified number of characters.
+
+// "hello".substr(1); // "ello"
+
+// The charAt() method returns the specified character from a string.
+
+// "hello".charAt(0); // "h"
+
 // ==> Reverse with In-Built Function:-
 
 function reverseString(str) {
@@ -27,36 +57,3 @@ function reverseString(str) {
 }
 
 reverseString("hello");
-
-// ==> Reverse a String With a Decrementing For Loop
-
-function reverseString(str) {
-  var newString = "";
-  for (var i = str.length - 1; i >= 0; i--) {
-    newString += str[i];
-  }
-  return newString;
-}
-reverseString("hello");
-
-// ==> Reverse a String With Recursion
-
-function reverseString(str) {
-    if (str === "")
-      return "";
-    else
-      return reverseString(str.substr(1)) + str.charAt(0);
-  }
-  reverseString("hello");
-
-// Explain:
-
-// The substr() method returns the characters in a string beginning at the 
-// specified location through the specified number of characters.
-
-// "hello".substr(1); // "ello"
-
-
-// The charAt() method returns the specified character from a string.
-
-// "hello".charAt(0); // "h"
