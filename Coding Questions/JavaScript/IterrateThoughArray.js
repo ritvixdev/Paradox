@@ -3,9 +3,9 @@
 
 // Three main options:
 
-// 1- for (var i = 0; i < xs.length; i++) { console.log(xs[i]); }
+// 1- for (var i = 0; i < xs.length; i++) { console.log(arr[i]); }
 // 2- arr.forEach((x, i) => console.log(x));
-// 3- for (const x of xs) { console.log(x); }
+// 3- for (const x of arr) { console.log(x); }
 
 // == for Loop ==
 
