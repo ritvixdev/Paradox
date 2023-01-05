@@ -1,32 +1,81 @@
 // interview example for useRef()
+// https://dmitripavlutin.com/react-useref-guide/
 
 // Synatax:
 // const ref = useRef(initialValue)
 
 
+// == Logging Button Clicks ==
 
-import React, { useEffect, useRef } from "react";
-
+import React, { useRef } from 'react';
 const App = () => {
-  // create a ref
-  const divElement = useRef();
+  const countRef = useRef(0);
 
-  // trigger on the first render of the component 
-  useEffect(() => {
-    // get the height of the div element
-    console.log(
-      "The height of the div is: ", divElement.current.offsetHeight
-    );
+  const handle = () => {
+    countRef.current++;
+    console.log(`Clicked ${countRef.current} times`);
+  };
+  console.log('I rendered!');
+  return <button onClick={handle}>Click me</button>;
+};
+
+export default App;
+
+// const countRef = useRef(0) creates a references countRef initialized with 0.
+
+// When the button is clicked, handle function is invoked and the reference value 
+// is incremented: countRef.current++. The reference value is logged to the console.
+
+// Updating the reference value countRef.current++ doesn't trigger component re-rendering.
+// This is demonstrated by the fact that 'I rendered!' is logged to the console just once,
+// at initial rendering, and no re-rendering happens when the reference is updated.
+
+// == same example by useState: ==
+
+import React, { useState } from 'react';
+// const App = () => {
+  const [count, setCount] = useState(0);
+  
+  const handle = () => {
+    const updatedCount = count + 1;
+    console.log(`Clicked ${updatedCount} times`);
+    setCount(updatedCount);
+  };
+  console.log('I rendered!');
+  return <button onClick={handle}>Click me</button>;
+//};
+//export default App;
+
+
+// == Accessing DOM Element ==
+
+import React, { useRef, useEffect } from 'react';
+// const App = () => {
+  const elementRef = useRef();
+   useEffect(() => {
+    const divElement = elementRef.current;
+    console.log(divElement); // logs <div>I'm an element</div>
   }, []);
-
   return (
-    <div ref={divElement}>
-      <h1>Learn about useRef!</h1>
+    <div ref={elementRef}>
+      I'm an element
     </div>
   );
+// }
+// export default App
 
-}
-export default App
+
+// == useCase: focusing an element == 
+
+import React, { useRef, useEffect } from 'react';
+// const App = () => {
+  const inputRef = useRef();
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+  return <input ref={inputRef} type="text" />;
+// };
+// export default App;
 
 
 // ===> useRef Definition:
