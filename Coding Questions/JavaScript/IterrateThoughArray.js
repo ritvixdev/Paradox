@@ -1,4 +1,4 @@
-// ways to itterate through an array
+// Ways to itterate through an array
 // https://stackoverflow.com/questions/3010840/loop-through-an-array-in-javascript
 
 // Three main options:
