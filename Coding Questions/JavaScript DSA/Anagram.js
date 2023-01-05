@@ -6,23 +6,23 @@ str1 = 'listen';
 str2 = 'silent';
 
 const findAnagram = (str1, str2) => {
-    let mappedstr1 = {},
-      mappedstr2 = {};
+    let obj1 = {},
+      obj2 = {};
   
     for (let item of str1) {
-      mappedstr1[item] = (mappedstr1[item] || 0) + 1;
+      obj1[item] = (obj1[item] || 0) + 1;
     }
   
     for (let item2 of str2) {
-      mappedstr2[item2] = (mappedstr2[item2] || 0) + 1;
+      obj2[item2] = (obj2[item2] || 0) + 1;
     }
   
-    for (let key in mappedstr1) {
-      if (!mappedstr2[key]) {
+    for (let key in obj1) {
+      if (!obj2[key]) {
         return false;
       }
   
-      if (mappedstr1[key] !== mappedstr2[key]) {
+      if (obj1[key] !== obj2[key]) {
         return false;
       }
     }
