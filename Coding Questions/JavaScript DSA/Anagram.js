@@ -1,6 +1,35 @@
 // Check Whether Two Strings Are Anagram Of Each Other
 
-// Key
+
+// For Loop
+
+str1 = 'listen';
+str2 = 'silent';
+
+const anagram = (str1, str2) => {
+  if (str1.length !== str2.length) {
+    return false;
+  }
+  const result = {};
+  for (let i = 0; i < str1.length; i++) {
+    let char = str1[i];
+    result[char] = result[char] ? (result[char] += 1) : (result[char] = 1);
+  }
+
+  for (let i = 0; i < str2.length; i++) {
+    let char = str2[i];
+    if (!result[char]) {
+      return false;
+    } else {
+      result[char] = -1;
+    }
+  }
+  return true;
+}
+
+console.log(anagram(str1, str2));
+
+// Key and object
 
 str1 = 'listen';
 str2 = 'silent';
@@ -32,33 +61,7 @@ const findAnagram = (str1, str2) => {
   console.log(findAnagram(str1, str2));
   
 
-// For Loop
 
-str1 = 'listen';
-str2 = 'silent';
-
-const anagram = (str1, str2) => {
-  if (str1.length !== str2.length) {
-    return false;
-  }
-  const result = {};
-  for (let i = 0; i < str1.length; i++) {
-    let char = str1[i];
-    result[char] = result[char] ? (result[char] += 1) : (result[char] = 1);
-  }
-
-  for (let i = 0; i < str2.length; i++) {
-    let char = str2[i];
-    if (!result[char]) {
-      return false;
-    } else {
-      result[char] = -1;
-    }
-  }
-  return true;
-}
-
-console.log(anagram(str1, str2));
 
 // In build method
 
