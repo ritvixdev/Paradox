@@ -18,7 +18,7 @@ const App = () => {
   return (
     <ul>
       {user.map((data, index) => {
-        return <li key={index}>{data.firstName}</li>;
+        return <li key={data.id}>{data.firstName}</li>;
       })}
     </ul>
   );
