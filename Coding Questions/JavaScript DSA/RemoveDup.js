@@ -1,5 +1,26 @@
 // Write a program to remove duplicate form Array
 
+// By inbuilt methods:
+
+const arr5 = [1, 2, 3, 4, 5, 1, 5, 4, 3];
+
+const removeDupl = (arr) => {
+  const result = [];
+  let idx = 0;
+  let tmp = {};
+
+  for (let i = 0; i < arr.length; i++) {
+    if (!tmp[arr[i]]) {
+      tmp[arr[i]] = 1;
+      result[idx] = arr[i];
+      idx++;
+    }
+  }
+  return result;
+};
+
+console.log(removeDupl(arr));
+
 // By reduce()
 
 var arr = ["apple", "mango", "apple", "orange", "mango", "mango"];
