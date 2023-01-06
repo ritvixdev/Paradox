@@ -9,7 +9,7 @@ const removeDupl = (arr) => {
   let idx = 0;
   let tmp = {};
 
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i <= arr.length - 1; i++) {
     if (!tmp[arr[i]]) {
       tmp[arr[i]] = 1;
       result[idx] = arr[i];
