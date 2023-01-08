@@ -17,3 +17,27 @@ var allAnagrams = function(arr) {
 }
 
 console.log(allAnagrams(arr));
+
+// chatGPT Method:
+
+var arr = ['cat', 'dog', 'tac', 'god', 'act'];
+
+function findAnagrams(words) {
+  var anagrams = {};
+  for (var i = 0; i < words.length; i++) {
+    var sortedWord = sortWord(words[i]);
+    if (sortedWord in anagrams) {
+      anagrams[sortedWord].push(words[i]);
+    } else {
+      anagrams[sortedWord] = [words[i]];
+    }
+  }
+  return anagrams;
+}
+
+function sortWord(word) {
+  return word.split('').sort().join('');
+}
+
+var anagrams = findAnagrams(arr);
+console.log(anagrams); // {act: ["cat","tac","act"],dgo:["dog","god"]}
