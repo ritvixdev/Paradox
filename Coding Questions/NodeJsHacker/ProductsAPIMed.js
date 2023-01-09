@@ -34,7 +34,7 @@ module.exports = router
 // Folder: controllers; File: product.js
 
 const ProductModel = require('../model/products')
-const {Op} = require("sequelize");
+
 
 class ProductController {
 
