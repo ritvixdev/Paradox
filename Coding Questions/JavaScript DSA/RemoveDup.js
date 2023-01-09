@@ -25,7 +25,7 @@ console.log(removeDupl(arr));
 
 var arr = ["apple", "mango", "apple", "orange", "mango", "mango"];
 
-const removeDup = arr.reduce(function (acc, curr) {
+const removeDup = arr.reduce( (acc, curr) => {
   if (!acc.includes(curr)) {
     acc.push(curr);
   }
