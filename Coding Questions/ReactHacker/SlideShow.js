@@ -8,7 +8,7 @@ function Slides({ slides }) {
   const [disableNext, setDisableNext] = useState(true);
   const [disableRestart, setDisableRestart] = useState(true);
 
-  const onCllickNext = () => {
+  const onClickNext = () => {
     let curSlideNo = activeSlideNo;
     if (curSlideNo < slides.length - 1) {
       curSlideNo++;
@@ -38,7 +38,7 @@ function Slides({ slides }) {
     }
   };
 
-  const onCLickRestart = () => {
+  const onClickRestart = () => {
     setActiveSlideNo(0);
     setCurrentSlide(slides[0]);
     setDisableNext(false);
