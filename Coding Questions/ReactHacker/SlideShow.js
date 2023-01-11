@@ -53,6 +53,10 @@ function Slides({ slides }) {
         <button disabled={disablePrev} onClick={() => onClickPrev()}>Prev</button>
         <button disabled={disableNext} onClick={() => onClickNext()}>Next</button>
       </div>
+      <div>
+        <h1>{currentSlide}</h1>
+        <p>{currentSlide.text}</p>
+      </div>
     </div>
   );
 }

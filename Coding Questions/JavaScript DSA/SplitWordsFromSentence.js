@@ -17,4 +17,4 @@ const splitIntoWords = (sentence) => {
   return words;
 };
 
-console.log(splitIntoWords(sentence));
+console.log(splitIntoWords(sentence));// [ 'This', 'is', 'a', 'sample', 'sentence.' ]
