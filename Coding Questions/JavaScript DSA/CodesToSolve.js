@@ -54,3 +54,21 @@ console.log(isEqual(obj1, obj2))
 
 // Keep in mind that deep comparison like this could be slower than just checking 
 // for references, so it's important to use it only when it's necessary.
+
+
+// ==> Fourth Code:
+
+let arr = [1,2,3,4,5]
+let obj = {...arr}
+console.log(obj) // {0: 1, 1: 2, 2: 3, 3: 4, 4: 5}
+
+// Explaination:
+
+// The code you provided uses the spread operator (...) to create a new object that has the
+// same properties as the array arr. The spread operator creates a new object with the elements
+// of the array as properties, with the index of the element being the key and the element being the value.
+
+
+
+
+
