@@ -1,5 +1,15 @@
 // CORS Explained for React and Node
 
+
+// CORS stands for Cross-Origin Resource Sharing. It allows us to relax the security
+// applied to an API. This is done by bypassing the Access-Control-Allow-Origin headers,
+// which specify which origins can access the API.
+
+// In other words, CORS is a browser security feature that restricts cross-origin HTTP requests
+// with other servers and specifies which domains access your resources.
+
+
+
 // CORS (Cross-Origin Resource Sharing) is a security feature implemented by web browsers
 // that blocks web pages from making requests to a different domain than the one that served
 // the web page. This is to prevent malicious websites from making unauthorized requests
