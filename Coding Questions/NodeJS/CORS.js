@@ -8,6 +8,25 @@
 // In other words, CORS is a browser security feature that restricts cross-origin HTTP requests
 // with other servers and specifies which domains access your resources.
 
+// Example:
+
+const cors = require('cors');
+app.use(cors({
+    origin: ['https://www.section.io', 'https://www.google.com/']
+}));
+
+// Example: 
+
+const whitelist = ['http://developer1.com', 'http://developer2.com']
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error())
+    }
+  }
+}
 
 
 // CORS (Cross-Origin Resource Sharing) is a security feature implemented by web browsers
