@@ -37,18 +37,21 @@ const rev1 = (word) => {
 };
 
 const splitWord = (str) => {
-  words = []
-  idx= 0
-  temp = ''
-  for(let i=0;i<=str.length-1;i++){
-    if(str[i] != ' '){
-      temp = temp+str[i]
-    }else{
-      words[idx++] = temp
-      temp =''
+  let words = [];
+  let idx = 0;
+  let temp = "";
+  
+  for(let i = 0; i <= str.length; i++) {  // <= instead of 
+    if(i === str.length || str[i] === " ") {  // treat end like a space
+      if(temp !== "") {
+        words[idx++] = temp;
+        temp = "";
+      }
+    } else {
+      temp += str[i];
     }
   }
-  return words
+  return words;
 }
 
 const operations = (str) => {
