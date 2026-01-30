@@ -43,6 +43,9 @@ const anagram = (str1, str2) => {
   return true;
 };
 
+
+
+
 // Two Objects Comparison ⭐⭐⭐
 
 str1 = 'listen';
@@ -136,6 +139,7 @@ const anagram2 = (str1, str2) => {
   // 5️⃣ If all characters cancel out correctly → anagram
   return true;
 };
+
 
 
 // Two Frequency Objects (Compare Pattern)
