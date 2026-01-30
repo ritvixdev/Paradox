@@ -24,82 +24,101 @@
 str1 = 'listen';
 str2 = 'silent';
 
-const anagram = (str1, str2) => {
+var isAnagram = function (str1, str2) {
   if (str1.length !== str2.length) return false;
 
-  const count = {};
+  const freq = {};
 
   for (let i = 0; i < str1.length; i++) {
     const ch = str1[i];
-    count[ch] = (count[ch] || 0) + 1;
+
+    if (freq[ch] === undefined) {
+      freq[ch] = 1;
+    } else {
+      freq[ch]++;
+    }
   }
 
   for (let i = 0; i < str2.length; i++) {
     const ch = str2[i];
-    if (!count[ch]) return false;
-    count[ch]--;
+
+    if (freq[ch] === undefined || freq[ch] === 0) {
+      return false;
+    }
+
+    freq[ch]--;
   }
 
   return true;
 };
 
+console.log(isAnagram(str1,str2))
 
 
 
-// Two Objects Comparison ⭐⭐⭐
+
+
+// Two Frequency Maps⭐⭐⭐
 
 str1 = 'listen';
 str2 = 'silent';
 
-const findAnagram = (str1, str2) => {
+var isAnagramUsingTwoMaps = function (str1, str2) {
   if (str1.length !== str2.length) return false;
 
-  let obj1 = {}, obj2 = {};
+  const freq1 = {};
+  const freq2 = {};
 
-  for (let ch of str1) {
-    obj1[ch] = (obj1[ch] || 0) + 1;
+  for (let i = 0; i < str1.length; i++) {
+    const ch = str1[i];
+    freq1[ch] = (freq1[ch] || 0) + 1;
   }
 
-  for (let ch of str2) {
-    obj2[ch] = (obj2[ch] || 0) + 1;
+  for (let i = 0; i < str2.length; i++) {
+    const ch = str2[i];
+    freq2[ch] = (freq2[ch] || 0) + 1;
   }
 
-  for (let key in obj1) {
-    if (obj1[key] !== obj2[key]) return false;
+  for (let key in freq1) {
+    if (freq1[key] !== freq2[key]) {
+      return false;
+    }
   }
 
   return true;
 };
+
+console.log(isAnagramUsingTwoMaps(str1,str2))
 
   
 // Explain :
 
 // Single Frequency Map (Increment–Decrement)
 
-const anagram2 = (str1, str2) => {
+// Mental Map 
+// COUNT → CANCEL → VALIDATE
 
-  // 1️⃣ If lengths are different, they can never be anagrams
-  // Example: "abc" and "ab" → impossible
-  if (str1.length !== str2.length) return false;
+var isAnagram = function (s, t) {
 
-  // 2️⃣ Create an empty object to store character counts
-  // This will work like a frequency table
-  const count = {};
+  // Step 1: Length mismatch → cannot be anagrams
+  if (s.length !== t.length) return false;
 
-  // 3️⃣ Loop through the FIRST string
-  // Goal: count how many times each character appears
-  for (let i = 0; i < str1.length; i++) {
+  // Step 2: Create frequency map
+  const freq = {};
 
-    // Get the current character
-    const ch = str1[i];
+  // Step 3: Count characters in first string
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i];
 
-    // If character already exists → increment count
-    // Else → initialize with 1
-    count[ch] = (count[ch] || 0) + 1;
+    if (freq[ch] === undefined) {
+      freq[ch] = 1;
+    } else {
+      freq[ch]++;
+    }
   }
 
   /*
-    Example after this loop for "listen":
+    After processing "listen":
     {
       l: 1,
       i: 1,
@@ -110,92 +129,49 @@ const anagram2 = (str1, str2) => {
     }
   */
 
-  // 4️⃣ Loop through the SECOND string
-  // Goal: "cancel out" the characters from the first string
-  for (let i = 0; i < str2.length; i++) {
+  // Step 4: Decrease counts using second string
+  for (let i = 0; i < t.length; i++) {
+    const ch = t[i];
 
-    const ch = str2[i];
+    // If char missing or already exhausted → not anagram
+    if (freq[ch] === undefined || freq[ch] === 0) {
+      return false;
+    }
 
-    // ❌ If character doesn't exist or count is already 0
-    // it means second string has extra or mismatched character
-    if (!count[ch]) return false;
-
-    // Reduce the count because this character is matched
-    count[ch]--;
+    freq[ch]--;
   }
 
-  /*
-    After processing "silent", all counts become:
-    {
-      l: 0,
-      i: 0,
-      s: 0,
-      t: 0,
-      e: 0,
-      n: 0
-    }
-  */
-
-  // 5️⃣ If all characters cancel out correctly → anagram
+  // Step 5: All characters cancelled out
   return true;
 };
 
 
 
+
 // Two Frequency Objects (Compare Pattern)
+var isAnagramUsingTwoMaps = function (s, t) {
 
-const findAnagram2 = (str1, str2) => {
+  if (s.length !== t.length) return false;
 
-  // 1️⃣ Different lengths → not anagrams
-  if (str1.length !== str2.length) return false;
+  const freq1 = {};
+  const freq2 = {};
 
-  // 2️⃣ Create two objects to store character frequencies
-  let obj1 = {};
-  let obj2 = {};
-
-  // 3️⃣ Count characters in the FIRST string
-  for (let ch of str1) {
-    obj1[ch] = (obj1[ch] || 0) + 1;
+  // Count characters in first string
+  for (let ch of s) {
+    freq1[ch] = (freq1[ch] || 0) + 1;
   }
 
-  /*
-    obj1 for "listen":
-    {
-      l: 1,
-      i: 1,
-      s: 1,
-      t: 1,
-      e: 1,
-      n: 1
-    }
-  */
-
-  // 4️⃣ Count characters in the SECOND string
-  for (let ch of str2) {
-    obj2[ch] = (obj2[ch] || 0) + 1;
+  // Count characters in second string
+  for (let ch of t) {
+    freq2[ch] = (freq2[ch] || 0) + 1;
   }
 
-  /*
-    obj2 for "silent":
-    {
-      s: 1,
-      i: 1,
-      l: 1,
-      e: 1,
-      n: 1,
-      t: 1
-    }
-  */
-
-  // 5️⃣ Compare both frequency objects
-  for (let key in obj1) {
-
-    // If a character count differs → not an anagram
-    if (obj1[key] !== obj2[key]) {
+  // Compare both maps
+  for (let key in freq1) {
+    if (freq1[key] !== freq2[key]) {
       return false;
     }
   }
 
-  // 6️⃣ All counts match → anagram
   return true;
 };
