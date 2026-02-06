@@ -32,3 +32,26 @@ console.log(flatArr);
 // over the elements in the array and adding them to a new array. If an element 
 // is itself an array, it calls itself recursively to flatten the sub-array before 
 // adding its elements to the new array.
+
+// recursion and without using build in methods
+
+const arr5 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
+
+function flattenArray(arr) {
+  let result = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (typeof arr[i] === "object") {
+      const flat = flattenArray(arr[i]);
+      for (let j = 0; j < flat.length; j++) {
+        result.push(flat[j]);
+      }
+    } else {
+      result.push(arr[i]);
+    }
+  }
+
+  return result;
+}
+
+console.log(flattenArray(arr5));
