@@ -21,7 +21,7 @@ arr4.flat(Infinity);
 
 function flatten(arr, result = []) {
   for (let i = 0; i < arr.length; i++) {
-    if(typeof arr[i] === "object" && arr[i] !== null) {
+    if(typeof arr[i] === "object" && arr[i] !== null && typeof arr[i].length === "number") {
       flatten(arr[i], result)
     } else {
       result.push(arr[i])
@@ -39,3 +39,22 @@ console.log(flatten(arr4))
 // over the elements in the array and adding them to a new array. If an element 
 // is itself an array, it calls itself recursively to flatten the sub-array before 
 // adding its elements to the new array.
+
+// with build in methods
+
+function flatten(arr) {
+  let result = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (Array.isArray(arr[i])) {
+      // Take the flattened sub-array and add its items to result
+      result = result.concat(flatten(arr[i]));
+      // or: result.push(...flatten(arr[i]));
+    } else {
+      result.push(arr[i]);
+    }
+  }
+  return result;
+}
+
+console.log(flatten(arr4))
