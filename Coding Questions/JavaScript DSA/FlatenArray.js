@@ -7,6 +7,21 @@ const arr4 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
 arr4.flat(Infinity);
 // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
+// By recrusion without using javascript methods
+
+function flatten(arr, result = []) {
+  for (let i = 0; i < arr.length; i++) {
+    if (typeof arr[i] === "object") {
+      flatten(arr[i], result)
+    } else {
+      result.push(arr[i])
+    }
+  }
+  return result
+}
+
+console.log(flatten(arr4))
+
 // By recursion chatGPT:
 
 function flattenArray(arr) {
