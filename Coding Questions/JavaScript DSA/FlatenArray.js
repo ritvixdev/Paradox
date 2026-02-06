@@ -1,5 +1,15 @@
 // recursion and flat method
 
+// important
+typeof 10          // "number"
+typeof "hello"     // "string"
+typeof true        // "boolean"
+typeof undefined   // "undefined"
+typeof function(){}// "function"
+typeof {}          // "object"
+typeof []          // "object"  ← IMPORTANT
+typeof null        // "object"  ← JS BUG
+
 
 // By flat Method:
 
@@ -11,7 +21,7 @@ arr4.flat(Infinity);
 
 function flatten(arr, result = []) {
   for (let i = 0; i < arr.length; i++) {
-    if (typeof arr[i] === "object") {
+    if(typeof arr[i] === "object" && arr[i] !== null) {
       flatten(arr[i], result)
     } else {
       result.push(arr[i])
