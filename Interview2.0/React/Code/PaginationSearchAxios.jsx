@@ -64,6 +64,14 @@ const App = () => {
         <div key={p.id}>{p.title}</div>
       ))}
 
+      {/* <ul>
+        {products.map((product) => (
+          <li key={product.id}>
+            {product.title} - ${product.price}
+          </li>
+        ))}
+      </ul> */}
+
       <button disabled={page === 0} onClick={() => setPage(page - 1)}>
         Prev
       </button>
