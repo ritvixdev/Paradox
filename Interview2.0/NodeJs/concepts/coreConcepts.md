@@ -84,6 +84,12 @@ console.log('4 - sync');
 
 ### Q: What is the difference between Macrotasks and Microtasks?
 
+**Answer:**
+- **Macrotask** (also called a "task"): A unit of work scheduled by the browser/Node.js runtime to be executed in a future iteration of the event loop. Each loop iteration picks **one** macrotask from the queue and runs it. Examples include `setTimeout`, `setInterval`, `setImmediate`, and I/O callbacks.
+- **Microtask**: A smaller, higher-priority unit of work that is queued and executed **immediately after the current task completes**, before the event loop picks the next macrotask. The entire microtask queue is drained before moving on. Examples include `Promise.then/catch/finally`, `queueMicrotask`, and `MutationObserver`.
+
+**Simple mental model:** Think of macrotasks as items in a to-do list you work through one at a time. Microtasks are urgent sticky-notes you clear completely before picking the next to-do item.
+
 | Feature | Macrotask | Microtask |
 |---|---|---|
 | Examples | `setTimeout`, `setInterval`, `setImmediate`, I/O | `Promise.then`, `queueMicrotask`, `MutationObserver` |
@@ -116,6 +122,12 @@ console.log('End');
 ---
 
 ### Q: What is `setImmediate` vs `setTimeout(fn, 0)`?
+
+**Answer:**
+- **`setTimeout(fn, 0)`** schedules a callback to run after a minimum delay of 0ms. It goes into the **Timers phase** of the event loop. Even with `0ms`, it is never truly immediate — the OS timer has a minimum resolution (usually ~1ms), so it always waits at least one event loop tick.
+- **`setImmediate(fn)`** is a Node.js-specific function that schedules a callback to run in the **Check phase** of the event loop — which comes right after the I/O phase, and *before* any timers. It is designed to run "immediately after" I/O callbacks finish.
+
+**Key rule:** When both are called from inside an **I/O callback**, `setImmediate` always runs first because the Check phase comes before the Timers phase in that tick. Outside of I/O, the order is non-deterministic and depends on OS timing.
 
 ```js
 // In Node.js:
@@ -204,6 +216,11 @@ var sayHi = function() {
 
 ### Q: What is the Temporal Dead Zone (TDZ)?
 
+**Answer:**
+The Temporal Dead Zone is the period of time between when a `let` or `const` variable **enters scope** (at the start of the block) and when it is **actually initialized** with a value. During this window, any attempt to read or write the variable throws a `ReferenceError`. This is different from `var`, which is initialized to `undefined` immediately upon hoisting, making it accessible (though with an `undefined` value) before its declaration line.
+
+The TDZ exists to catch bugs caused by using variables before they are intentionally set — it enforces cleaner, more predictable code.
+
 ```js
 // The period between entering scope and initialization is the TDZ
 {
@@ -253,7 +270,12 @@ console.log(double(5)); // 10
 console.log(triple(5)); // 15
 ```
 
-### Q: Classic closure gotcha with var in loops
+### Q: Classic closure gotcha — why does `var` in a loop cause problems?
+
+**Answer:**
+When you use `var` inside a `for` loop, the variable is **function-scoped**, not block-scoped. This means all iterations of the loop share the **exact same `i` variable** in memory. By the time the `setTimeout` callbacks actually fire (after the loop finishes), `i` has already been incremented to its final value. Every callback then reads that final value, not the value at the time the iteration ran.
+
+`let` solves this because it is **block-scoped** — each loop iteration gets its own separate binding of `i`, so each closure captures a different variable. An IIFE achieves the same result by creating a new function scope per iteration, capturing the current value as a parameter.
 
 ```js
 // Problem: all closures share the SAME `i`
@@ -309,6 +331,15 @@ console.log(dog.toString()); // found on Object.prototype (top of chain)
 
 ### Q: What are the two types of prototype?
 
+**Answer:**
+There are two distinct but related prototype concepts in JavaScript:
+
+1. **`__proto__`** (the instance prototype / `[[Prototype]]` link): This is a property on **every object instance** that points to the prototype object it inherits from. When you look up a property, JavaScript follows this `__proto__` chain automatically. In modern code you should use `Object.getPrototypeOf(obj)` instead of accessing `__proto__` directly, as `__proto__` is legacy.
+
+2. **`.prototype`** (the constructor's prototype property): This is a property on **constructor functions and classes only** — not on regular objects. When you call `new MyFunction()`, the newly created instance's `__proto__` is set to `MyFunction.prototype`. This is how shared methods are defined once and inherited by all instances.
+
+**One-liner:** `__proto__` is on instances (used for lookup). `.prototype` is on constructors (used as the template for new instances).
+
 ```js
 // Type 1: __proto__ (instance prototype — the [[Prototype]] link)
 const obj = {};
@@ -328,6 +359,14 @@ console.log(alice.greet()); // "Hi, I'm Alice"
 ```
 
 ### Q: How do you create objects with a specific prototype? (4 ways)
+
+**Answer:**
+JavaScript gives you several ways to create an object and explicitly set what its prototype should be:
+
+1. **`Object.create(proto)`** — Creates a new empty object whose `[[Prototype]]` is set directly to `proto`. The most explicit and flexible way. Great when you want prototypal inheritance without a constructor function.
+2. **Constructor function with `new`** — Define a function, add methods to `FunctionName.prototype`, then call `new FunctionName()`. This was the standard pre-ES6 approach.
+3. **ES6 `class` syntax** — Syntactic sugar over constructor functions and prototype assignment. Cleaner and more readable. Under the hood it still uses prototypes.
+4. **Object literal `{}`** — The simplest way. The object automatically inherits from `Object.prototype`, giving you methods like `.toString()`, `.hasOwnProperty()`, etc.
 
 ```js
 // Way 1: Object.create()
@@ -363,6 +402,11 @@ const plain = { x: 1 };
 ```
 
 ### Q: How does inheritance work using prototype?
+
+**Answer:**
+Prototype-based inheritance means a child object/function can **inherit methods and properties** from a parent by setting up the prototype chain correctly. In ES5, you do this manually using `Object.create()` to set the child's prototype to an instance of the parent's prototype, then fix the `constructor` reference. In ES6+, the `extends` keyword and `super()` call handle all of this automatically and cleanly.
+
+The critical step in ES5 is: `Child.prototype = Object.create(Parent.prototype)`. This means any instance of `Child` will walk up the chain through `Child.prototype` → `Parent.prototype` → `Object.prototype` → `null`, picking up methods at each level.
 
 ```js
 // ES5 Prototype Inheritance
@@ -600,6 +644,14 @@ fetchData
 
 ### Q: What are the Promise variations/combinators?
 
+**Answer:**
+Promise combinators are static methods on the `Promise` class that let you coordinate multiple promises running concurrently. Each behaves differently when promises succeed or fail:
+
+- **`Promise.all`**: Runs all in parallel and resolves when **all** succeed. If even **one** fails, the whole thing rejects immediately. Use when you need every result and a single failure should abort everything (e.g. loading required data for a page).
+- **`Promise.allSettled`**: Runs all in parallel and **always** resolves (never rejects). Gives you the outcome of every promise — fulfilled or rejected. Use when you want all results regardless of failures (e.g. sending notifications to multiple users).
+- **`Promise.race`**: Resolves or rejects as soon as the **first** promise settles — win or lose. Use for timeout patterns or taking the fastest available source.
+- **`Promise.any`**: Resolves with the **first success**, ignoring rejections. Only rejects if **all** promises fail. Use when you have multiple fallback sources and just need one to work.
+
 ```js
 const p1 = fetch('/api/users');
 const p2 = fetch('/api/products');
@@ -637,6 +689,14 @@ const rejected = Promise.reject(new Error('nope'));
 ```
 
 ### Q: How does async/await work under the hood?
+
+**Answer:**
+`async/await` is **syntactic sugar built on top of Promises** — it doesn't replace them, it just makes them easier to read and write. When you mark a function `async`, it automatically returns a Promise. When you use `await` inside it, JavaScript **pauses execution of that function** (without blocking the thread) and resumes it once the awaited Promise resolves. Under the hood, the JavaScript engine transforms `async/await` code into a Promise chain.
+
+Key points:
+- `await` can only be used inside an `async` function (or at the top level in ES modules).
+- Errors in awaited promises are caught with a normal `try/catch` block — much cleaner than `.catch()` chaining.
+- `await` without `Promise.all` runs promises **sequentially**, not in parallel — a common performance mistake.
 
 ```js
 // async/await is syntactic sugar over Promises
@@ -735,6 +795,12 @@ stream.start();
 
 ### Q: What is the difference between blocking and non-blocking code?
 
+**Answer:**
+- **Blocking code** halts the execution of the entire program until the operation completes. In Node.js, this means the event loop is frozen — no other requests, callbacks, or timers can run while a blocking operation is in progress. Examples: `fs.readFileSync`, `crypto.pbkdf2Sync`, heavy CPU loops.
+- **Non-blocking code** initiates an operation and immediately returns control to the event loop, allowing other work to proceed. When the operation completes (e.g. the file is read), a callback or promise resolution is placed in the queue and executed later. Examples: `fs.readFile`, `fetch`, database queries.
+
+**Why it matters:** Node.js is single-threaded. One blocking call can stall every other user's request on your server. Non-blocking I/O is the core design principle that makes Node.js capable of handling thousands of concurrent connections efficiently.
+
 ```js
 const fs = require('fs');
 
@@ -762,6 +828,15 @@ async function readConfig() {
 ## 🚨 Error Handling & Exceptions
 
 ### Q: How do you capture and handle errors in async code?
+
+**Answer:**
+Error handling in async Node.js code has several layers:
+
+1. **`try/catch` with `async/await`** — The cleanest approach for handling errors in specific functions. Wrap your awaited calls and catch any rejection or thrown error locally.
+2. **`.catch()` on a Promise chain** — Used when working with raw Promise chains. One `.catch()` at the end handles any rejection from any step in the chain.
+3. **`process.on('unhandledRejection')`** — A global safety net in Node.js for any Promise that was rejected but had no `.catch()` attached. You should always have this to prevent silent failures and crash gracefully.
+4. **`process.on('uncaughtException')`** — Catches any synchronous exception that was thrown but not caught anywhere. After logging, you **must** exit the process — the application is in an unknown state.
+5. **Custom Error classes** — Extend the built-in `Error` class to create semantic errors with extra fields like `statusCode`, `field`, etc. This lets you identify and handle different error types differently in your error middleware.
 
 ```js
 // 1. try/catch with async/await
@@ -835,6 +910,15 @@ try {
 ## 📁 fs Module
 
 ### Q: How does the fs module work in Node.js?
+
+**Answer:**
+The `fs` (File System) module is a built-in Node.js core module that provides an API for interacting with the file system — reading, writing, deleting, and watching files and directories. It comes in three flavours:
+
+1. **Synchronous (`readFileSync`, `writeFileSync`)** — Blocks the event loop until the operation finishes. Only use in startup scripts or CLI tools where blocking is acceptable.
+2. **Callback-based (`readFile`, `writeFile`)** — The classic non-blocking approach. Passes `(err, data)` to a callback when done.
+3. **Promise-based (`fs.promises.readFile`, or `require('fs/promises')`)** — The modern recommended approach. Works with `async/await` and integrates cleanly with the rest of async code.
+
+For **large files**, always use **streams** (`createReadStream`, `createWriteStream`, `.pipe()`) to avoid loading the entire file into memory at once.
 
 ```js
 const fs = require('fs');
@@ -1033,6 +1117,15 @@ if (isMainThread) {
 
 ### Q: How do you distribute load across OOP and multiple workers?
 
+**Answer:**
+When you have CPU-intensive work that would block the event loop, the solution is a **Worker Pool** — a set of pre-created workers that sit idle and pick up tasks from a shared queue. This is a classic OOP design where a `WorkerPool` class encapsulates the pool management logic and exposes a simple `.run(task)` method.
+
+Key design principles:
+- **Pool size** = number of CPU cores (`os.cpus().length`) — one worker per core avoids context switching overhead.
+- **Queue** — incoming tasks that exceed the number of idle workers are held in a queue and processed as workers become free.
+- **Fair dispatch** — workers pick up the next task immediately after finishing their current one, ensuring no worker sits idle while the queue has work.
+- This pattern distributes the computational load across all available CPU cores without overwhelming the system.
+
 ```js
 // Worker Pool Pattern — distributes tasks across N workers
 const { Worker } = require('worker_threads');
@@ -1151,6 +1244,16 @@ app.post('/users', validate, (req, res) => {
 
 ### Q: How do you implement Authentication Middleware?
 
+**Answer:**
+**Authentication middleware** sits between the incoming request and your route handler. Its job is to verify that the client is who they claim to be before allowing access to protected resources. The most common approach in modern REST APIs is **JWT (JSON Web Token) authentication**.
+
+**How JWT auth works:**
+1. **Login** — the client sends credentials (email + password). The server verifies them and returns a signed JWT token.
+2. **Every subsequent request** — the client includes the token in the `Authorization: Bearer <token>` header.
+3. **Middleware** — verifies the token's signature using the secret key, checks it hasn't expired, and attaches the decoded user data to `req.user` so route handlers can use it.
+
+**Role-based authorization** is a separate layer on top of authentication. Authentication answers "who are you?", authorization answers "what are you allowed to do?" The `authorize(...roles)` middleware checks `req.user.role` (set by the auth middleware) against the required role for that route.
+
 ```js
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret';
@@ -1223,7 +1326,17 @@ app.delete('/users/:id', authenticate, authorize('admin'), (req, res) => {
 ### Q: What is rate limiting and how do you implement it?
 
 **Answer:**
-Rate limiting restricts how many requests a client can make in a time window — prevents abuse, DDoS attacks, and API overuse.
+**Rate limiting** is a technique that controls how many requests a client (identified by IP address, API key, or user ID) can make to your server within a given time window. When the limit is exceeded, the server returns a **429 Too Many Requests** response.
+
+**Why it matters:**
+- **Prevents abuse** — stops a single bad actor from hammering your API.
+- **Protects against brute-force attacks** — limits password guessing on login endpoints.
+- **Controls costs** — prevents runaway usage from buggy clients hitting expensive operations.
+- **Ensures fairness** — no single client can consume all server capacity and degrade service for others.
+
+**Implementation approaches:**
+1. **In-memory (library like `express-rate-limit`)** — simple, zero setup, but doesn't work across multiple server instances (each server has its own counter).
+2. **Redis-backed** — stores counters in a shared Redis instance, works correctly across horizontally scaled servers. This is the production-grade approach.
 
 ```js
 // Using express-rate-limit library
@@ -1285,7 +1398,19 @@ const rateLimiter = async (req, res, next) => {
 ### Q: What is CORS and how do you handle it?
 
 **Answer:**
-CORS (Cross-Origin Resource Sharing) is a browser security feature that blocks requests from a different origin (protocol + domain + port) unless the server explicitly allows it.
+**CORS (Cross-Origin Resource Sharing)** is a browser security policy that blocks JavaScript from making HTTP requests to a **different origin** (a different combination of protocol, domain, or port) than the page it is running on. This is called the **Same-Origin Policy**.
+
+For example, JavaScript running on `https://myapp.com` cannot call `https://api.otherdomain.com` by default — the browser blocks it. CORS is the mechanism that lets servers **explicitly allow** specific cross-origin requests by sending the right HTTP headers.
+
+**How it works:**
+- For simple requests (GET, POST with basic headers), the browser sends the request and checks the response headers.
+- For "preflighted" requests (those with custom headers, PUT/DELETE, or JSON bodies), the browser first sends an **OPTIONS preflight request** to ask the server "can I make this request?" — the server must respond with the allowed methods and headers before the real request is sent.
+
+**Common CORS headers:**
+- `Access-Control-Allow-Origin` — which origins are allowed (e.g. `*` or `https://myapp.com`)
+- `Access-Control-Allow-Methods` — which HTTP methods are permitted
+- `Access-Control-Allow-Headers` — which request headers are allowed
+- `Access-Control-Allow-Credentials` — whether cookies can be sent with the request
 
 ```js
 const cors = require('cors');
@@ -1327,6 +1452,17 @@ app.use((req, res, next) => {
 ## 🍃 MongoDB
 
 ### Q: What are the key MongoDB concepts for an interview?
+
+**Answer:**
+**MongoDB** is a **NoSQL document database** that stores data as flexible, JSON-like documents (BSON) instead of rows in tables. There is no fixed schema — each document in a collection can have different fields. This makes it great for rapidly evolving data structures and hierarchical/nested data.
+
+Key concepts to know:
+- **Collection** = table in SQL. **Document** = row. **Field** = column.
+- **Schema-less** — documents in the same collection can have different shapes. Mongoose adds optional schema validation on top.
+- **`_id`** — every document automatically gets a unique `_id` (an ObjectId) as its primary key.
+- **Aggregation Pipeline** — a powerful way to transform and analyse data in stages (`$match`, `$group`, `$sort`, `$project`, etc.), similar to SQL's `GROUP BY` + `JOIN` in one pipeline.
+- **Transactions** — since MongoDB 4.0, you can run multi-document ACID transactions using sessions, important for operations that must be all-or-nothing (e.g. deducting from one account and crediting another).
+- **Mongoose** — the most popular ODM (Object Data Modelling) library for Node.js. Adds schemas, validation, and convenience methods on top of the raw MongoDB driver.
 
 ```js
 const { MongoClient, ObjectId } = require('mongodb');
@@ -1387,6 +1523,18 @@ try {
 ## 🗄️ SQL
 
 ### Q: What are the key SQL concepts for a Node.js interview?
+
+**Answer:**
+**SQL (Structured Query Language)** is the standard language for interacting with relational databases (PostgreSQL, MySQL, SQLite). Unlike MongoDB, SQL databases enforce a **fixed schema** — every row in a table has the same columns, with defined types. Data is stored in related tables connected by foreign keys, and relationships are queried using **JOINs**.
+
+Key concepts to know:
+- **SELECT, INSERT, UPDATE, DELETE** — the four core data manipulation operations (DML).
+- **JOIN types** — `INNER JOIN` (only matching rows from both tables), `LEFT JOIN` (all rows from left, matched or not), `RIGHT JOIN`, `FULL OUTER JOIN`.
+- **Aggregation** — `GROUP BY`, `COUNT`, `SUM`, `AVG`, `MAX`, `MIN`, combined with `HAVING` to filter groups.
+- **Transactions** — wrap multiple statements in `BEGIN`/`COMMIT`/`ROLLBACK` to ensure all-or-nothing execution (ACID properties).
+- **Subqueries** — a query nested inside another query, used to filter by the result of another SELECT.
+- **Indexes** — data structures that speed up lookups (covered in the next section).
+- In Node.js, you typically use a library like `pg` (PostgreSQL), `mysql2`, or an ORM like **Sequelize** or **Prisma**.
 
 ```sql
 -- ── BASIC QUERIES ──
@@ -1450,7 +1598,24 @@ async function getUserOrders(userId) {
 ### Q: What is indexing and why does it matter?
 
 **Answer:**
-An index is a data structure (usually a B-tree) that speeds up read queries by allowing the database to find rows without scanning every row. The trade-off is slightly slower writes and more storage.
+An **index** is a separate data structure (usually a **B-tree** or hash map) that the database maintains alongside your data to make certain queries dramatically faster. Without an index, finding a document/row requires a **full collection scan** — reading every single record to find matches. With an index on the queried field, the database can jump directly to the relevant records in `O(log n)` time instead of `O(n)`.
+
+**The trade-off:**
+- ✅ Indexes make **reads faster** — queries on indexed fields are often 10x–1000x faster.
+- ❌ Indexes make **writes slower** — every INSERT, UPDATE, or DELETE must also update all relevant indexes.
+- ❌ Indexes **consume disk space** — each index is essentially an extra copy of part of your data, sorted differently.
+
+**When to add an index:**
+- Fields you filter on frequently in `WHERE` / `.find()` clauses (e.g. `email`, `userId`).
+- Fields you sort on frequently.
+- Fields that appear in JOIN conditions.
+
+**When NOT to add an index:**
+- Very small tables (full scan is fast enough).
+- Columns with very low cardinality (e.g. a boolean `isActive` — an index barely helps).
+- Heavily write-heavy tables where the write slowdown outweighs the read benefit.
+
+Always use `EXPLAIN` (SQL) or `.explain('executionStats')` (MongoDB) to verify that your index is actually being used by the query planner.
 
 ```js
 // ── MONGODB INDEXES ──
@@ -1503,7 +1668,17 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE email = 'a@b.com';
 ### Q: What are microservices and when should you use them?
 
 **Answer:**
-Microservices is an architecture where an application is split into small, independent services, each responsible for a specific business capability, communicating via APIs or message queues.
+**Microservices** is an architectural style where a large application is broken into small, independently deployable services, each responsible for a single business capability (e.g. Users, Orders, Payments). Each service has its own codebase, its own database, and communicates with others via APIs (REST/gRPC) or message queues.
+
+**Benefits:**
+- **Independent deployment** — deploy the Order service without touching the User service.
+- **Independent scaling** — scale only the Payment service during peak checkout, not the whole app.
+- **Technology freedom** — User service in Node.js, ML service in Python, no problem.
+- **Fault isolation** — one service crashing doesn't bring down everything.
+
+**Drawbacks and when NOT to use:**
+- Significantly more complexity: networking, distributed tracing, service discovery, data consistency across services.
+- **Start with a monolith** for small teams / early-stage products. Only break into microservices when you have clear bounded domains, a team large enough to own each service, and the infrastructure to manage them (Kubernetes, Docker, CI/CD per service).
 
 ```
 Monolith:                  Microservices:
@@ -1544,7 +1719,16 @@ gateway.listen(3000, () => console.log('Gateway running on :3000'));
 ### Q: What is a message queue and how does RabbitMQ work?
 
 **Answer:**
-A message queue decouples services by allowing them to communicate asynchronously. Producer sends a message to a queue; consumer processes it independently.
+A **message queue** is a form of asynchronous service-to-service communication. Instead of Service A calling Service B directly (tightly coupled, synchronous), Service A drops a **message** into a queue and immediately continues. Service B picks it up and processes it at its own pace. This **decouples** the services — they don't need to be running simultaneously, and Service B can scale independently.
+
+**RabbitMQ** is a popular open-source message broker that implements the AMQP protocol. Key concepts:
+- **Producer**: The service that creates and sends messages to a queue.
+- **Queue**: A buffer that holds messages until a consumer is ready.
+- **Consumer**: The service that reads and processes messages from the queue.
+- **Acknowledgement (`ack`)**: After successfully processing a message, the consumer sends an `ack`. RabbitMQ then removes the message from the queue. If the consumer crashes before acking, RabbitMQ re-queues the message automatically.
+- **`prefetch(1)`**: Tells RabbitMQ to only send one unacknowledged message per consumer at a time — this ensures fair task distribution among multiple consumer instances.
+
+**Real-world uses:** Sending emails, processing images/videos, handling payments, triggering notifications — anything that can be done asynchronously outside the main request/response cycle.
 
 ```
 Producer → [Queue] → Consumer
@@ -1606,8 +1790,10 @@ async function startConsumer() {
 ### Q: What is the difference between latency and throughput?
 
 **Answer:**
-- **Latency**: How long a single request takes (milliseconds) — *speed*
-- **Throughput**: How many requests are processed per second (RPS) — *volume*
+- **Latency** is the time it takes for a **single request** to travel from the client to the server and back — the round-trip time, measured in milliseconds. Low latency means fast individual responses. It is affected by network distance, server processing time, database query speed, and serialization overhead.
+- **Throughput** is the number of **requests a system can process per unit of time** — usually measured in requests per second (RPS) or transactions per second (TPS). High throughput means the system handles large volumes. It is affected by parallelism, connection pooling, caching, and horizontal scaling.
+
+**They are related but not the same.** A system can have low latency (each request is fast) but also low throughput (it can only handle one at a time). Or it can have high throughput (handles many requests) but higher latency under load as requests queue up. The goal is to optimize for both: keep latency low while maximizing concurrent request handling.
 
 ```
 Low latency + High throughput = ideal system
@@ -1679,6 +1865,12 @@ if (cluster.isPrimary) {
 
 ### Q: What is the difference between HTTP and HTTPS?
 
+**Answer:**
+- **HTTP (HyperText Transfer Protocol)** is the foundation of data communication on the web. It is a stateless, text-based protocol that sends all data — including passwords, cookies, and personal information — as **plain text**. Anyone who intercepts the traffic can read it. HTTP runs on port **80**.
+- **HTTPS (HTTP Secure)** is HTTP with an added layer of **TLS (Transport Layer Security)** encryption. Before data is sent, the client and server perform a **TLS handshake** to agree on encryption keys. All subsequent data is encrypted — unreadable to any interceptor. HTTPS also verifies the server's identity via an **SSL/TLS certificate**, protecting against impersonation attacks. It runs on port **443**.
+
+**Why it matters:** Browsers mark HTTP sites as "Not Secure". Modern APIs, authentication flows, and any page handling user data must use HTTPS. Search engines also rank HTTPS sites higher.
+
 | Feature | HTTP | HTTPS |
 |---|---|---|
 | Encryption | ❌ None | ✅ TLS/SSL |
@@ -1720,6 +1912,15 @@ http.createServer((req, res) => {
 
 ### Q: What are HTTP status codes?
 
+**Answer:**
+HTTP status codes are 3-digit numbers returned by a server in response to every request. They tell the client what happened. They are grouped into five classes by their first digit. As a backend developer, you should always return the **semantically correct** status code — it makes APIs self-documenting and easier to debug.
+
+- **1xx (Informational)** — The request was received and is being processed. Rarely seen in REST APIs.
+- **2xx (Success)** — The request was received, understood, and accepted successfully.
+- **3xx (Redirection)** — Further action is needed to complete the request (e.g. follow a new URL).
+- **4xx (Client Error)** — The client made a bad request — wrong URL, missing auth, invalid data.
+- **5xx (Server Error)** — The server failed to fulfil a valid request — a bug or infrastructure problem.
+
 ```
 1xx — Informational
 2xx — Success:       200 OK, 201 Created, 204 No Content
@@ -1733,6 +1934,12 @@ http.createServer((req, res) => {
 ## 🔌 TCP vs UDP
 
 ### Q: What is the difference between TCP and UDP?
+
+**Answer:**
+- **TCP (Transmission Control Protocol)** is a **connection-oriented** protocol. Before any data is sent, TCP performs a **three-way handshake** (SYN → SYN-ACK → ACK) to establish a reliable connection. It guarantees that every packet arrives, arrives in order, and is error-checked. If a packet is lost, TCP automatically retransmits it. This reliability comes at the cost of speed and overhead.
+- **UDP (User Datagram Protocol)** is a **connectionless** protocol. It fires packets at the destination without establishing a connection, without confirming delivery, and without caring about order. This makes it significantly faster and lower-latency — perfect for real-time applications where a slightly lost packet is acceptable but delay is not.
+
+**Simple analogy:** TCP is like sending a certified letter (confirmed, tracked, in order). UDP is like shouting across a crowded room — fast, but not guaranteed to be heard.
 
 | Feature | TCP | UDP |
 |---|---|---|
@@ -1806,6 +2013,11 @@ a=rtpmap:96 VP8/90000
 ## 🐧 Linux Basic Commands
 
 ### Q: What are the most important Linux commands for a Node.js developer?
+
+**Answer:**
+Linux is the operating system that runs the vast majority of production Node.js servers. As a backend developer you need to be comfortable navigating the file system, inspecting running processes, reading logs, managing permissions, and debugging network issues — all from the command line without a GUI.
+
+The commands below are grouped by category. In an interview, focus on being able to explain *what* a command does and *when* you would reach for it — for example: "I use `tail -f app.log` to watch a live log file during deployment" or "I use `lsof -i :3000` to find out what process is already using my port."
 
 ```bash
 # ── FILE & DIRECTORY ──
