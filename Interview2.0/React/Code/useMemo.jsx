@@ -183,3 +183,19 @@ export default App;
 // useMemo	Memoizes computed value
 // React.memo	Memoizes component render
 // useCallback	Memoizes function reference
+
+
+// 🚀 Advanced Bonus (Interviewer Trap)
+
+// If you pass inline object:
+<Child options={{ page: 1 }} />
+// Child will always re-render.
+
+// Correct way:
+
+const options = useMemo(() => ({ page: 1 }), []);
+<Child options={options} />
+
+// 🎯 Strong Final Interview Answer
+
+// Combining useMemo with React.memo helps prevent unnecessary child re-renders by stabilizing prop references.
