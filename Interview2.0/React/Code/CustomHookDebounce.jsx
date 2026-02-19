@@ -33,40 +33,42 @@ import axios from "axios";
 import useDebounce from "./useDebounce";
 
 const App = () => {
+
   const [search, setSearch] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Debounced value
   const debouncedSearch = useDebounce(search, 500);
 
+  const BASE_URL = "https://dummyjson.com/products";
+
+  // 🔹 Separate GET Function (same as CRUD)
+  const getProducts = async (query) => {
+    try {
+      setLoading(true);
+
+      const res = await axios.get(`${BASE_URL}/search`, {
+        params: { q: query }
+      });
+
+      setProducts(res.data.products);
+
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔹 Call GET from useEffect
   useEffect(() => {
     if (!debouncedSearch) return;
-
-    const fetchProducts = async () => {
-      try {
-        setLoading(true);
-
-        const res = await axios.get(
-          "https://dummyjson.com/products/search",
-          {
-            params: { q: debouncedSearch }
-          }
-        );
-
-        setProducts(res.data.products);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+    getProducts(debouncedSearch);
   }, [debouncedSearch]);
 
   return (
     <div>
+
       <input
         placeholder="Search products..."
         value={search}
@@ -78,6 +80,7 @@ const App = () => {
       {products.map(p => (
         <p key={p.id}>{p.title}</p>
       ))}
+
     </div>
   );
 };
