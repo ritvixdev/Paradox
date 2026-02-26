@@ -1382,9 +1382,9 @@ export default ChildComponent;
 
 Redux provides a **centralized store** that holds the entire state of an application and allows components to access and update the state in a predictable manner.
 
-![image.png](image%205.png)
+![image.png](images/image%205.png)
 
-![image.png](image%206.png)
+![image.png](images/image%206.png)
 
 ### Role of Store in React Redux
 
@@ -1504,4 +1504,4 @@ const store = configureStore({
 });
 ```
 
-![image.png](image%207.png)
+![image.png](images/image%207.png)
