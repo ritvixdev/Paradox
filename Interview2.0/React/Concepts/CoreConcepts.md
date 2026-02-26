@@ -782,7 +782,7 @@ The **`useEffect` Hook** in React is used to perform side effects in functional 
 
 For example, data fetching from API, subscriptions or any other operation that needs to be performed after the component has been rendered.
 
-![image.png](image.png)
+![image.png](images/image.png)
 
 ### 2 Points to Remember about useEffect()
 
@@ -883,9 +883,9 @@ export default Child;
 
 **Component lifecycle methods** are special methods that get called at various stages of a component's life.
 
-![image.png](image%201.png)
+![image.png](images/image_1.png)
 
-![image.png](image%202.png)
+![image.png](images/image_2.png)
 
 ---
 
@@ -895,7 +895,7 @@ A **constructor** is a special method that is called when an instance of the cla
 
 Constructor is used for initializing the component's state or performing any setup that is needed before the component is rendered.
 
-![image.png](image%203.png)
+![image.png](images/image_3.png)
 
 ```jsx
 class ConstructorExample extends Component {
@@ -1034,7 +1034,7 @@ src/
 └── CodeSplit.js
 ```
 
-![image.png](image%204.png)
+![image.png](images/image_4.png)
 
 ### 3 Steps for Code Splitting in React
 
@@ -1382,9 +1382,9 @@ export default ChildComponent;
 
 Redux provides a **centralized store** that holds the entire state of an application and allows components to access and update the state in a predictable manner.
 
-![image.png](images/image%205.png)
+![image.png](images/image_5.png)
 
-![image.png](images/image%206.png)
+![image.png](images/image_6.png)
 
 ### Role of Store in React Redux
 
@@ -1504,4 +1504,4 @@ const store = configureStore({
 });
 ```
 
-![image.png](images/image%207.png)
+![image.png](images/image_7.png)
