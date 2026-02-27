@@ -127,7 +127,7 @@ Ideally in Node.js, a JavaScript file can be treated as a module.
 
 A module is a broader concept that encapsulates functionality, while a function is a specific set of instructions within that module. Modules can contain multiple functions and variables.
 
-![image.png](node_img0.png)
+![image.png](images/node_img0.png)
 
 ---
 
@@ -523,7 +523,7 @@ app.listen(PORT, () => {
 
 The request pipeline in Express.js is a series of middleware functions that handle incoming HTTP requests and pass control to the next function.
 
-![image.png](node_img1.png)
+![image.png](images/node_img1.png)
 
 ---
 
@@ -703,7 +703,7 @@ app.use(compression());
 
 **Routing** is the process of directing incoming HTTP requests to the appropriate handler functions based on the request's method (e.g., GET, POST) and the URL path.
 
-![image.png](node_img2.png)
+![image.png](images/node_img2.png)
 
 ### Middleware vs Routing
 
@@ -1010,7 +1010,7 @@ app.listen(3000, () => {
 
 **Advantage:** This allows you to create more modular and structured routes, making your codebase easier to manage and maintain.
 
-![image.png](node_img3.png)
+![image.png](images/node_img3.png)
 
 ```js
 // usersRouter.js
@@ -1067,7 +1067,7 @@ app.listen(3000, () => {
 
 **Template engines** are libraries that enable developers to generate dynamic HTML content by combining static HTML templates with data.
 
-![image.png](node_img4.png)
+![image.png](images/node_img4.png)
 
 ### Template Engine Libraries
 
@@ -1138,7 +1138,7 @@ app.listen(PORT, () => {
 
 **RESTful API** is a service which follows REST principles/guidelines.
 
-![image.png](node_img5.png)
+![image.png](images/node_img5.png)
 
 ---
 
@@ -1181,7 +1181,7 @@ app.listen(PORT, () => {
 
 **HTTP methods**, also known as HTTP verbs, are a set of actions that a client can take on a resource.
 
-![image.png](node_img7.png)
+![image.png](images/node_img7.png)
 
 ---
 
@@ -1262,7 +1262,7 @@ app.listen(PORT, () => {
 
 **CORS (Cross-Origin Resource Sharing)** is a security feature implemented in web browsers that restricts web pages or scripts from making requests to a different domain than the one that served the web page.
 
-![image.png](node_img8.png)
+![image.png](images/node_img8.png)
 
 CORS restrictions can be removed by enabling CORS middleware in the application.
 
@@ -1296,7 +1296,7 @@ app.listen(3000, () => {
 
 **Serialization** is the process of converting an object into a format that can be stored, transmitted, or reconstructed later.
 
-![image.png](node_img9.png)
+![image.png](images/node_img9.png)
 
 ### Types of Serialization
 
@@ -1342,7 +1342,7 @@ https://api.example.com/v2/resource
 https://api.example.com/v3/resource
 ```
 
-![image.png](node_img10.png)
+![image.png](images/node_img10.png)
 
 ---
 
@@ -1421,7 +1421,7 @@ The disadvantage of it is, Basic Authentication sends credentials in plain text 
 
 **Hashing** is a process of converting a password into a fixed-size string of characters using a mathematical algorithm.
 
-![image.png](node_img11.png)
+![image.png](images/node_img11.png)
 
 ---
 
@@ -1469,7 +1469,7 @@ The disadvantage of it is, API keys can be shared or stolen, therefore it may no
 
 ## 53. Token-based and JWT Authentication
 
-![image.png](node_img12.png)
+![image.png](images/node_img12.png)
 
 ### JWT Token has 3 Parts
 
@@ -1477,11 +1477,11 @@ The disadvantage of it is, API keys can be shared or stolen, therefore it may no
 2. Payload
 3. Signature
 
-![image.png](node_img13.png)
+![image.png](images/node_img13.png)
 
 **JWT token is inside Request Header**
 
-![image.png](node_img14.png)
+![image.png](images/node_img14.png)
 
 ---
 
