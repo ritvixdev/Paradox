@@ -81,18 +81,18 @@ Client App ──── Request ───► API Endpoint ───► Server Lo
 ### ⚖️ FastAPI vs Flask vs Django — The Big Comparison
 
 ```
-┌─────────────┬──────────────────┬──────────────────┬──────────────────┐
-│  Feature    │    FastAPI       │     Flask        │     Django       │
-├─────────────┼──────────────────┼──────────────────┼──────────────────┤
-│ Type        │ API Framework    │ Micro Framework  │ Full-Stack       │
-│ Speed       │ ⚡⚡⚡ Very Fast  │ ⚡⚡ Fast         │ ⚡ Moderate      │
-│ Async       │ ✅ Native        │ ❌ Not built-in  │ ⚠️ Limited       │
-│ Validation  │ ✅ Auto (Pydantic)│ ❌ Manual        │ ⚠️ Partial       │
-│ ORM         │ ❌ Bring your own│ ❌ Bring your own│ ✅ Built-in      │
-│ Admin Panel │ ❌               │ ❌               │ ✅ Built-in      │
-│ Auto Docs   │ ✅ Swagger+ReDoc │ ❌               │ ❌               │
-│ Best For    │ APIs/Microservices│ Small Apps       │ Full Web Apps    │
-└─────────────┴──────────────────┴──────────────────┴──────────────────┘
+┌─────────────┬──────────────────────┬──────────────────┬──────────────────┐
+│  Feature    │    FastAPI           │     Flask        │     Django       │
+├─────────────┼──────────────────────┼──────────────────┼──────────────────┤
+│ Type        │ API Framework        │ Micro Framework  │ Full-Stack       │
+│ Speed       │ ⚡⚡⚡ Very Fast   │ ⚡⚡ Fast        │ ⚡ Moderate     │
+│ Async       │ ✅ Native           │ ❌ Not built-in  │ ⚠️ Limited       │
+│ Validation  │ ✅ Auto (Pydantic)  │ ❌ Manual        │ ⚠️ Partial       │
+│ ORM         │ ❌ Bring your own   │ ❌ Bring your own│ ✅ Built-in      │
+│ Admin Panel │ ❌                  │ ❌               │ ✅ Built-in      │
+│ Auto Docs   │ ✅ Swagger+ReDoc    │ ❌               │ ❌               │
+│ Best For    │ APIs/Microservices  │ Small Apps        │ Full Web Apps    │
+└─────────────┴─────────────────────┴───────────────────┴──────────────────┘
 ```
 
 > **Memory Trick:** "**F**astAPI = **F**ast APIs. **F**lask = **F**lexible small apps. **D**jango = **D**one for you (full stack)."
