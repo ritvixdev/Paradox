@@ -709,20 +709,51 @@ export function useModal() {
 
 ---
 
+
 # 16) More Scenario Questions (Extra Practice)
 
-Use these to test yourself (with short expected answers):
+Use these to test yourself (**with short expected answers**):
 
-1) Your list is reordering but items show wrong state—why? (keys)  
-2) How to prevent double API calls in React 18 StrictMode?  
-3) How to cancel fetch requests on unmount?  
-4) How to handle optimistic updates for likes/comments?  
-5) How to implement “undo” feature? (state history)  
-6) How to design a table with sorting + filtering + pagination?  
-7) How to store auth tokens securely?  
-8) How to handle websocket updates + state consistency?  
-9) How to reduce context re-render blast radius?  
-10) How to handle skeleton loading & error retry UX?
+### 1) Your list is reordering but items show wrong state—why? (keys)
+**Short answer:** Your keys are not stable (often using index as key), so React “reuses” the wrong DOM/component instance when items move.  
+**Fix:** Use a **stable unique id** as `key`, and avoid index keys for reorderable/filterable lists.
+
+### 2) How to prevent double API calls in React 18 StrictMode?
+**Short answer:** In **development**, StrictMode can intentionally mount/unmount and re-run effects to detect unsafe side effects, so your fetch runs twice.  
+**Mitigation:** Make effects **idempotent** + cancel/ignore duplicates using `AbortController`, or use a data-fetching cache (React Query/RTK Query) that **dedupes** requests. Don’t “hack around” it in production code—fix the effect logic.
+
+### 3) How to cancel fetch requests on unmount?
+**Short answer:** Use `AbortController` and abort in the `useEffect` cleanup to avoid setting state after unmount.  
+**Pattern:** create controller → pass `signal` → `return () => controller.abort()`.
+
+### 4) How to handle optimistic updates for likes/comments?
+**Short answer:** Update UI immediately, keep a snapshot of previous state, send request, and **rollback** if it fails (or reconcile with server response).  
+**Best practice:** Use a mutation helper (React Query `onMutate/onError/onSettled` or RTK Query optimistic updates) for clean rollback logic.
+
+### 5) How to implement “undo” feature? (state history)
+**Short answer:** Maintain history: `past[]`, `present`, `future[]`.  
+**Undo:** move `present` to `future`, pop from `past` into `present`.  
+**Redo:** reverse the operation. `useReducer` is ideal for this.
+
+### 6) How to design a table with sorting + filtering + pagination?
+**Short answer:** Keep UI state: `sortKey`, `sortDir`, `filters`, `page`, `pageSize`. Derive rows with `useMemo` (filter → sort → paginate).  
+**Scaling:** For large datasets, do **server-side** pagination/sorting/filtering and keep client state for controls + query params.
+
+### 7) How to store auth tokens securely?
+**Short answer:** Prefer **HttpOnly + Secure + SameSite cookies** for tokens so JS can’t read them (reduces XSS risk).  
+If you must store client-side: keep access token **in memory** (not localStorage), rotate frequently, and use a refresh token in cookie + CSRF protection.
+
+### 8) How to handle websocket updates + state consistency?
+**Short answer:** Use a single websocket connection in `useEffect`, update state with **functional updates / reducer**, and dedupe messages by id.  
+Add reconnect with backoff, and handle out-of-order events using timestamps/sequence numbers.
+
+### 9) How to reduce context re-render blast radius?
+**Short answer:** Split contexts (don’t put everything in one), memoize provider value, and avoid passing new objects/functions each render.  
+If still heavy: use selector-based context patterns or move frequently-changing state to a store (Redux/Zustand) with selectors.
+
+### 10) How to handle skeleton loading & error retry UX?
+**Short answer:** Show skeletons for initial load, keep previous data while refetching, and show an inline error with a **Retry** button.  
+For flaky APIs: implement exponential backoff retries (or use React Query/RTK Query) and clearly communicate “loading / error / success” states.
 
 ---
 
