@@ -2,14 +2,10 @@
 Flatten Nested List Variants (Interview Ready)
 Author: Suvam Das
 
-This file contains multiple ways to flatten a nested Python list.
-- No heavy built-ins like itertools.chain or numpy.
-- Includes recursion, generator (yield from), and iterative stack approach.
-
-Note:
-- These versions treat only `list` as "nested container".
-- If you want to also flatten tuples, change `isinstance(item, list)` to
-  `isinstance(item, (list, tuple))`.
+Updated Version:
+✅ No main block
+✅ Output shown immediately after each approach
+✅ Expected output written as inline comments
 """
 
 
@@ -17,13 +13,11 @@ Note:
 # 1) Recursive Flatten (manual append; no extend shortcut)
 # ==========================================================
 def flatten_recursive(arr):
-    """Flatten using recursion (classic interview solution)."""
     result = []
 
     for item in arr:
         if isinstance(item, list):
             sub = flatten_recursive(item)
-            # manually append items (no extend)
             for value in sub:
                 result.append(value)
         else:
@@ -32,11 +26,15 @@ def flatten_recursive(arr):
     return result
 
 
+arr1 = [1, 2, [3, 4, [5, 6, [7, 8]]]]
+print("1) Recursive:", flatten_recursive(arr1))
+# Expected: [1, 2, 3, 4, 5, 6, 7, 8]
+
+
 # ==========================================================
-# 2) Recursive Flatten (cleaner; uses +=)
+# 2) Recursive Flatten (cleaner version using +=)
 # ==========================================================
 def flatten_recursive_clean(arr):
-    """Flatten using recursion (cleaner syntax)."""
     result = []
 
     for item in arr:
@@ -48,11 +46,15 @@ def flatten_recursive_clean(arr):
     return result
 
 
+arr2 = [10, [20, [30, 40]], 50]
+print("2) Recursive Clean:", flatten_recursive_clean(arr2))
+# Expected: [10, 20, 30, 40, 50]
+
+
 # ==========================================================
-# 3) Generator Flatten (yield from) - memory efficient
+# 3) Generator Flatten (yield from)
 # ==========================================================
 def flatten_generator(arr):
-    """Flatten using a generator (advanced interview bonus)."""
     for item in arr:
         if isinstance(item, list):
             yield from flatten_generator(item)
@@ -60,11 +62,15 @@ def flatten_generator(arr):
             yield item
 
 
+arr3 = [1, [2, [3, [4]]]]
+print("3) Generator:", list(flatten_generator(arr3)))
+# Expected: [1, 2, 3, 4]
+
+
 # ==========================================================
-# 4) Iterative Flatten (stack; avoids recursion depth issues)
+# 4) Iterative Flatten (stack-based, no recursion)
 # ==========================================================
 def flatten_iterative(arr):
-    """Flatten using an explicit stack (no recursion)."""
     stack = [arr]
     result = []
 
@@ -72,7 +78,6 @@ def flatten_iterative(arr):
         current = stack.pop()
 
         if isinstance(current, list):
-            # push in reverse so original order is preserved
             for item in reversed(current):
                 stack.append(item)
         else:
@@ -81,14 +86,17 @@ def flatten_iterative(arr):
     return result
 
 
-# ==========================================================
-# Main demo / quick tests
-# ==========================================================
-if __name__ == "__main__":
-    arr = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]]
+arr4 = [5, [6, 7], [[8, 9]], 10]
+print("4) Iterative:", flatten_iterative(arr4))
+# Expected: [5, 6, 7, 8, 9, 10]
 
-    print("Original:", arr)
-    print("Recursive:", flatten_recursive(arr))
-    print("Recursive Clean:", flatten_recursive_clean(arr))
-    print("Generator:", list(flatten_generator(arr)))
-    print("Iterative:", flatten_iterative(arr))
+
+# ==========================================================
+# 5) Advanced Case: Mixed Depth
+# ==========================================================
+arr5 = [1, [2, [3, 4], 5], 6, [[7], 8]]
+print("5) Recursive (Mixed Depth):", flatten_recursive(arr5))
+# Expected: [1, 2, 3, 4, 5, 6, 7, 8]
+
+print("5) Iterative (Mixed Depth):", flatten_iterative(arr5))
+# Expected: [1, 2, 3, 4, 5, 6, 7, 8]
