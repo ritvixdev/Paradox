@@ -1,0 +1,48 @@
+A decorator is:
+
+A function that takes another function and returns a modified version of that function.
+
+So instead of changing original function code, we wrap extra behavior around it.
+
+
+"Python keeps everything on a private heap—variables are just names pointing to objects there. 
+Cleanup happens mostly through reference counting: when no names point to an object anymore—like after del or scope ends—it frees memory right away. 
+For cases where objects form cycles and refs never drop to zero, a generational garbage collector runs in the background, 
+finds them, and cleans up. No manual free, no big pauses—just automatic."
+
+"Python's GIL is a global lock in CPython that lets only one thread execute Python bytecode at a time. 
+It protects shared objects from race conditions, but kills true parallelism for CPU-heavy tasks. For I/O, it's fine—GIL drops during waits. 
+For math loops? Better go multiprocessing or use C extensions like NumPy. Future versions might fix it, but right now, that's why Python isn't 'multi-threaded' like Java."
+
+
+
+"The GIL—Global Interpreter Lock—is a mutex in CPython that forces only one thread to execute Python bytecode at a time. Even if you've got ten threads, they queue up—one runs, others wait.
+Why? Because Python's memory—like lists, dicts—isn't thread-safe. Without the lock, two threads could mess up the same object—like refcounting or garbage collection—and crash or corrupt data. So GIL keeps things safe.
+Downside? It kills true parallelism for CPU-heavy work. Your code won't speed up on multiple cores—it's basically single-threaded for Python ops. But I/O—like network calls or file reads—releases the GIL while waiting, so threads shine there.
+For real speed? Use multiprocessing—separate processes, no GIL—or C extensions like NumPy."
+
+
+
+Threading (import threading):
+Multiple threads inside one process. They share memory—easy to pass lists or dicts around. But... GIL means only one Python line runs at a time. So for CPU stuff—like loops or math—it feels single-threaded. Great for I/O (downloading files, APIs)—GIL drops while waiting, so threads fly there.
+Like JS: Promise.all() but with real threads.
+
+Multiprocessing (import multiprocessing):
+Spawns separate processes—each has its own Python interpreter, own GIL, own memory. True parallelism on multiple cores! No GIL fights. But... no shared memory—you gotta use queues, pipes, or shared objects (slower, more code).
+Like JS worker threads, but heavier—good for big computations, like image processing or ML training.
+
+Async I/O (asyncio, async def, await):
+Not threads, not processes—just one thread, but super smart waiting. Uses event loop—like Node.js. You await I/O (network, files, DB), Python switches to other tasks instantly. No blocking.
+Zero overhead for context switching—fastest for tons of I/O (web servers, chat apps). But CPU-heavy? Still single-core—pair it with multiprocessing if needed.
+
+Quick side-by-side:
+
+Threading → shared memory, GIL bottleneck, good for I/O
+Multiprocessing → real cores, no sharing, heavy startup
+Async → single thread, killer for wait-heavy stuff, no GIL drama
+
+Rule:
+
+Web scraping? Async or threads.
+Math on 1 million numbers? Multiprocessing.
+API server? Async (FastAPI, aiohttp).

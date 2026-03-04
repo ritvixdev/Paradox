@@ -534,40 +534,120 @@ console.log(double(5));
 
 ## 24. Call, Apply and Bind
 
-`call`, `apply`, and `bind` are three methods in JavaScript that are used to work with functions and control how they are invoked and what context they operate in.
+`call`, `apply`, and `bind` are three methods available on JavaScript functions that allow you to control the value of `this` when a function is executed.
 
-These methods provide a way to manipulate the `this` value and pass arguments to functions.
+These methods are commonly used for:
+
+- Setting the execution context (`this`)
+- Function borrowing
+- Passing arguments dynamically
+- Reusing functions across different objects
+
+---
+
+### Base Example Function
 
 ```js
 // Defining a function that uses the "this" context and an argument
 function sayHello(message) {
   console.log(`${message}, ${this.name}!`);
 }
+
 const person = { name: 'Happy' };
 ```
 
+---
+
+## 1. call()
+
+### Definition
+
+`call()` is a method that invokes a function immediately and allows you to explicitly specify the value of `this` along with arguments passed individually.
+
+### Syntax
+
 ```js
-// 1. call - Using the "call" method to invoke the function
-// with a specific context and argument
+function.call(thisArg, arg1, arg2, ...)
+```
+
+- `thisArg` → The object that should be used as `this`
+- Arguments are passed **one by one**
+
+### Example
+
+```js
+// Using call() to invoke the function with a specific context
 sayHello.call(person, 'Hello');
-// Output: "Hello, Happy!"
+
+// Output:
+// Hello, Happy!
 ```
 
+---
+
+## 2. apply()
+
+### Definition
+
+`apply()` is similar to `call()`, but the difference is that arguments are passed as an **array instead of individually**.
+
+### Syntax
+
 ```js
-// 2. apply - Using the "apply" method to invoke the function
-// with a specific context and an array of arguments
+function.apply(thisArg, [argsArray])
+```
+
+- `thisArg` → The object used as `this`
+- Arguments are passed as an **array**
+
+### Example
+
+```js
+// Using apply() to invoke the function with arguments in an array
 sayHello.apply(person, ['Hi']);
-// Output: "Hi, Happy!"
+
+// Output:
+// Hi, Happy!
 ```
+
+---
+
+## 3. bind()
+
+### Definition
+
+`bind()` does not execute the function immediately. Instead, it returns a **new function with the `this` context permanently bound** to the specified object.
+
+### Syntax
 
 ```js
-// 3. bind - Using the "bind" method to create a new function
-// with a specific context (not invoking it immediately)
-const greetPerson = sayHello.bind(person);
-greetPerson('Greetings');
-// Output: "Greetings, Happy!"
+function.bind(thisArg, arg1, arg2, ...)
 ```
 
+- Returns a **new function**
+- The function can be called later
+
+### Example
+
+```js
+// Using bind() to create a new function with a fixed context
+const greetPerson = sayHello.bind(person);
+
+greetPerson('Greetings');
+
+// Output:
+// Greetings, Happy!
+```
+
+---
+
+## Key Differences
+
+| Method | Executes Immediately | Arguments Format | Returns New Function |
+|------|------|------|------|
+| call | Yes | Individual arguments | No |
+| apply | Yes | Array of arguments | No |
+| bind | No | Individual arguments | Yes |
 ---
 
 ## 25. Function Expression

@@ -1,0 +1,126 @@
+FastAPI Route Decorator (Real Example)
+
+This is the most common one interviewer expects:
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/users/{user_id}")
+async def get_user(user_id: int):
+    return {"user_id": user_id}
+What happens?
+
+@app.get("/users/{user_id}")
+is a decorator.
+
+Internally it does:
+
+get_user = app.get("/users/{user_id}")(get_user)
+
+It registers your function as a route handler.
+
+🔥 2️⃣ Real Logging Decorator (Interview Level)
+from functools import wraps
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
+def log_execution(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        logging.info(f"Calling function: {func.__name__}")
+        result = await func(*args, **kwargs)
+        logging.info(f"Finished function: {func.__name__}")
+        return result
+    return wrapper
+
+Use it in FastAPI:
+
+@app.get("/hello")
+@log_execution
+async def say_hello():
+    return {"message": "Hello World"}
+Interview Explanation:
+
+This decorator logs when the endpoint starts and finishes execution.
+It helps in monitoring and debugging without modifying endpoint logic.
+
+🔥 3️⃣ Timing Decorator (Performance Monitoring)
+import time
+from functools import wraps
+
+def measure_time(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        start = time.time()
+        result = await func(*args, **kwargs)
+        end = time.time()
+        print(f"{func.__name__} executed in {end - start:.4f} seconds")
+        return result
+    return wrapper
+
+Usage:
+
+@app.get("/slow")
+@measure_time
+async def slow_endpoint():
+    time.sleep(1)
+    return {"status": "done"}
+Interview Explanation:
+
+Used for performance profiling of endpoints in production.
+
+🔥 4️⃣ Authentication Decorator (Very Real Scenario)
+
+Instead of repeating auth logic in every endpoint:
+
+from fastapi import HTTPException
+
+def require_token(func):
+    @wraps(func)
+    async def wrapper(token: str, *args, **kwargs):
+        if token != "secret123":
+            raise HTTPException(status_code=401, detail="Unauthorized")
+        return await func(*args, **kwargs)
+    return wrapper
+
+Usage:
+
+@app.get("/secure")
+@require_token
+async def secure_data(token: str):
+    return {"data": "This is protected"}
+🔥 5️⃣ Caching Example (Very Common Interview Topic)
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def get_config():
+    print("Loading config...")
+    return {"version": "1.0"}
+Interview Explanation:
+
+lru_cache is a decorator that stores previous results in memory and avoids recomputation.
+
+🧠 What You Should Say in Interview
+
+If interviewer asks:
+
+How are decorators used in FastAPI?
+
+Answer:
+
+"FastAPI heavily relies on decorators for route registration. For example, @app.get() registers the function as a route handler. Decorators are also used for cross-cutting concerns like logging, authentication, caching, and performance measurement without modifying business logic."
+
+🎯 Pro-Level Answer (Bonus Points)
+
+If interviewer asks:
+
+Why async inside decorator?
+
+Because FastAPI endpoints are async functions.
+If we don’t use async wrapper, we break the async execution model.
+
+So correct pattern:
+
+async def wrapper(...)
