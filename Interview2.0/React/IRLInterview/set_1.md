@@ -52,3 +52,38 @@ Can you give a real-world example where you used HOC?
 React Project Optimization
 
 How do you optimize a React project?
+
+
+Live Coding Exercise
+
+Create a counter with plus and minus buttons. 
+When the counter reaches 5, the display text color should become red.
+Why were multiple numbers increasing automatically even though no button was clicked?
+Do you really need useEffect for this problem?
+
+Was your frontend stack React along with Next.js?
+Do you have experience working with UI libraries?
+How was your component structure?
+What did you use for state management or context management?
+
+React Rendering
+
+In the given React snippet, will the child component re-render on every click of the button?
+Why do you think it will or will not re-render?
+
+Infinite Scroll / API Trigger Logic
+
+How would you implement infinite loading on a product listing page?
+Can you explain your approach first?
+Can you write the JavaScript logic/function that triggers an API call when the user scrolls to the bottom?
+How would you prevent multiple API calls while the user keeps scrolling?
+Can you use debounce or throttle for that?
+
+React Performance Optimization
+
+Suppose a React application takes about 10 seconds for first paint and its JavaScript bundle is around 7–8 MB. How would you optimize it?
+How would you first identify what exactly is taking time to load?
+What debugging points would you check?
+Once you know the React application is not optimized and the JS bundle is huge, how would you optimize it?
+Anything else you would do for optimization?
+
