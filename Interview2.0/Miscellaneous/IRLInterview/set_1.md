@@ -18,3 +18,28 @@ How is the update pushed from the gateway to the device?
 Were your changes only for scheduling and pushing updates till the gateway, while gateway-to-device pushing was handled by another team?
 What does this pipeline involve?
 
+AI / Tooling
+
+Do you use any AI agents as part of your day-to-day development?
+
+Apart from React, Next.js, and Node.js, is there any other language you have used to write APIs?
+
+Intro / Background
+
+Q1. Can you briefly talk about yourself?
+Q2. Are you a full-stack developer or more frontend-focused?
+Q3. What are your primary skill sets?
+
+1. Introduction / Project Background
+
+Q1. Can we start with an introduction?
+Q2. What was your role in that project?
+Q3. Did you work on both frontend and backend?
+Q4. Was the backend built using Node.js?
+Q5. Was the frontend built using React?
+Q6. Did you use Express.js or Nest.js for the backend?
+Q7. On the frontend, was it Next.js?
+Q8. Why did you choose Next.js?
+Q9. You said you moved from Angular to React — what was the reason?
+Q10. Did you work on both Angular and React, or only React?
+Q11. How many years of experience do you have in React and Node.js?

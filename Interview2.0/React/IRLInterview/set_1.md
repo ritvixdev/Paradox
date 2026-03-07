@@ -87,3 +87,60 @@ What debugging points would you check?
 Once you know the React application is not optimized and the JS bundle is huge, how would you optimize it?
 Anything else you would do for optimization?
 
+React Experience / Versions
+
+Which version of React are you using?
+Are you comfortable with React 18 concepts?
+Are you familiar with older React versions and class-based components?
+
+React Fundamentals
+
+What is React?
+What do you mean by state and props?
+What is a component?
+How does React work?
+How is the virtual DOM created?
+How does React know which part got updated?
+Can we see the virtual DOM or only the normal DOM?
+How do you see the DOM?
+What is JSX?
+
+Coding / Component Writing
+
+Can you write a simple React component and share your screen?
+Do you need state for a component?
+What are stateful and stateless components?
+What is the simplest form of a React component?
+If there is no state change and no data change, is React still a good fit?
+In that case, can we still use React and how would it be handled?
+
+Forms / Component Types
+
+Do you know about controlled and uncontrolled components?
+
+Data Passing / State Sharing
+
+How do you pass data from one component to another?
+Given the hierarchy Company → Department → Employee → Employee Details, how would you pass data from Company to Employee Details?
+Can you write where you pass the data and where you consume it?
+Have you worked on any state management tool?
+What is state in your application?
+If your app has multiple pages and each page header must show the same name and department, how would you show that data on all pages?
+How would you update data from child to parent?
+
+
+Context vs Redux / React Hooks
+
+If you are not using Redux, can everything be achieved using Context API?
+Do you know about useReducer?
+In useEffect, what are dependencies?
+What happens if you pass an empty dependency array?
+What happens if you completely avoid the dependency array?
+
+CSS / Styling
+
+How good are you in CSS?
+What is MUI?
+What is the flex model?
+Do you know relative positioning?
+What are the different ways to style a React component?
