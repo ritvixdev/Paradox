@@ -144,3 +144,43 @@ What is MUI?
 What is the flex model?
 Do you know relative positioning?
 What are the different ways to style a React component?
+
+React Fundamentals
+
+What are hooks, and why do we use hooks?
+What is the difference between useMemo and useCallback?
+What is a higher-order component?
+What is the difference between useEffect and useLayoutEffect?
+How would you implement lazy loading in React?
+If a React application has performance issues, how would you handle them?
+What is the virtual DOM?
+Have you used Redux?
+So you used Context API, right?
+
+TypeScript
+
+What is the difference between type and interface?
+Do you know generics in TypeScript?
+
+Frontend Tooling / Testing
+
+Which build tool were you using on the frontend?
+How do you write unit tests in backend or frontend?
+Which framework were you using for testing?
+When should one use Mocha and when should one use Chai?
+What different use cases do Mocha and Chai provide?
+Do you have experience working with Jest?
+
+React
+
+What is reconciliation?
+Which state management library did you use?
+Did you use Context API instead of Redux?
+What are the different functions or methods used in Redux?
+Do you know about reducers?
+What are you really good at — frontend, backend, framework, or database?
+What is prop drilling?
+Is prop drilling a good practice, or should we avoid it?
+What is lazy loading?
+What is Suspense?
+Did you implement lazy loading?

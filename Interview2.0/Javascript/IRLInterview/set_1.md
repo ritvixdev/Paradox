@@ -23,3 +23,17 @@ Do you know promises?
 What is a promise?
 What do you mean by async and await?
 Given this console.log / setTimeout snippet, what will be the output?
+
+Coding / Algorithms
+
+Write a program to sort an array without using any built-in functions.
+What is your approach to solve this sorting problem?
+What will be the time complexity of this problem?
+How many loops are required to solve this problem?
+Do you think this can be solved in a single loop
+
+JavaScript / Output Questions
+
+How do you deep copy an object?
+If I give you a nested object, will you be able to deep copy it?
+
