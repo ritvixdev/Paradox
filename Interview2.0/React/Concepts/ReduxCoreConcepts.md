@@ -45,10 +45,10 @@
 
 ```mermaid
 flowchart LR
-  UI[Component] -->|dispatch(action)| MW[Middleware optional]
-  MW --> R[Reducer (pure)]
-  R --> S[Store (single state tree)]
-  S -->|useSelector| UI
+UI[Component] -->|dispatch(action)| MW[Middleware (optional)]
+MW --> R[Reducer (pure)]
+R --> S[Store (single state tree)]
+S -->|useSelector| UI
 ```
 
 ### ✅ What interviewers love
@@ -122,8 +122,8 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-  A[Action] --> B[Reducer (pure)]
-  B --> C[New State]
+A[Action] --> B[Reducer (pure)]
+B --> C[New State]
 ```
 
 ---
