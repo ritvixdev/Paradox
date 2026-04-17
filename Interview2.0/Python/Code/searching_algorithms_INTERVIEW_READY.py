@@ -1,4 +1,7 @@
 """
+
+====== Birnary search for interviwes ==============
+
 ╔══════════════════════════════════════════════════════════════════════╗
 ║          SEARCHING ALGORITHMS — FULL INTERVIEW PREP GUIDE            ║
 ║                        Author: Suvam Das                             ║
