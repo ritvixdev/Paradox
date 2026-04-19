@@ -9,3 +9,4 @@ What is partitioning in a NoSQL database?
 When should one consider partitioning?
 How do you maintain versions in MongoDB documents?
 If a record needs multiple versions, how would you maintain them?
+create a user schema and export the schema
