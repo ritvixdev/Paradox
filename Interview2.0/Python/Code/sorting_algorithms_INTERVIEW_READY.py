@@ -1,5 +1,5 @@
 """
- ========= Merge Sort ============== For interviwes
+ ========= Merge Sort > Insertion Sort ============== For interviwes
 
 ╔══════════════════════════════════════════════════════════════════════╗
 ║          SORTING ALGORITHMS — FULL INTERVIEW PREP GUIDE              ║
