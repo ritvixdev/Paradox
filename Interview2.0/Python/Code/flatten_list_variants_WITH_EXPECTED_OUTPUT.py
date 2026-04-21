@@ -7,6 +7,36 @@ Updated Version:
 ✅ Output shown immediately after each approach
 ✅ Expected output written as inline comments
 """
+# ==========================================================
+# 2) Recursive Flatten (cleaner version using +=)
+# ==========================================================
+def flatten_recursive_clean(arr):
+    result = []
+
+    for item in arr:
+        if isinstance(item, list):
+            result += flatten_recursive_clean(item)
+        else:
+            result.append(item)
+
+    return result
+
+
+arr2 = [10, [20, [30, 40]], 50]
+print("2) Recursive Clean:", flatten_recursive_clean(arr2))
+# Expected: [10, 20, 30, 40, 50]
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # ==========================================================
@@ -31,24 +61,7 @@ print("1) Recursive:", flatten_recursive(arr1))
 # Expected: [1, 2, 3, 4, 5, 6, 7, 8]
 
 
-# ==========================================================
-# 2) Recursive Flatten (cleaner version using +=)
-# ==========================================================
-def flatten_recursive_clean(arr):
-    result = []
 
-    for item in arr:
-        if isinstance(item, list):
-            result += flatten_recursive_clean(item)
-        else:
-            result.append(item)
-
-    return result
-
-
-arr2 = [10, [20, [30, 40]], 50]
-print("2) Recursive Clean:", flatten_recursive_clean(arr2))
-# Expected: [10, 20, 30, 40, 50]
 
 
 # ==========================================================
