@@ -52,7 +52,7 @@ R --> S["Store (single state tree)"]
 S -->|"useSelector"| UI
 ```
 
-![alt text](image_redux.png)
+![image_redux.png](images/image_redux.png)
 
 ### ✅ What interviewers love
 - “Redux is predictable because state changes are explicit and traceable via actions.”
