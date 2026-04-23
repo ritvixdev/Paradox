@@ -5,6 +5,7 @@
 
 ---
 
+
 ## ✅ How to use this file (fast)
 - **Pass 1 (20 min):** Read only **One‑liners**.
 - **Pass 2 (60–90 min):** Read bullets + type code snippets.
@@ -50,6 +51,8 @@ MW --> R["Reducer (pure)"]
 R --> S["Store (single state tree)"]
 S -->|"useSelector"| UI
 ```
+
+![alt text](image_redux.png)
 
 ### ✅ What interviewers love
 - “Redux is predictable because state changes are explicit and traceable via actions.”
