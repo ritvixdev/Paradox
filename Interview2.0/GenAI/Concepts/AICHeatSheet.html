@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gen AI Interview Cheat Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Syne:wght@400;600;800&family=Inter:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --code-bg: #0d1117;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 24px;
+  }
+
+  .page-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--accent);
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+
+  .page-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .col-2 { grid-column: span 2; }
+  .col-3 { grid-column: span 3; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    break-inside: avoid;
+  }
+
+  .card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-blue { background: rgba(0,212,255,0.15); color: var(--accent); border: 1px solid rgba(0,212,255,0.3); }
+  .tag-purple { background: rgba(124,58,237,0.15); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+  .tag-green { background: rgba(16,185,129,0.15); color: var(--accent3); border: 1px solid rgba(16,185,129,0.3); }
+  .tag-amber { background: rgba(245,158,11,0.15); color: var(--accent4); border: 1px solid rgba(245,158,11,0.3); }
+  .tag-red { background: rgba(239,68,68,0.15); color: var(--accent5); border: 1px solid rgba(239,68,68,0.3); }
+
+  .kv-list { display: flex; flex-direction: column; gap: 4px; }
+
+  .kv-row {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    padding: 3px 6px;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .kv-row:hover { background: var(--surface2); }
+
+  .kv-key {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 120px;
+    flex-shrink: 0;
+  }
+
+  .kv-key.purple { color: #a78bfa; }
+  .kv-key.green { color: var(--accent3); }
+  .kv-key.amber { color: var(--accent4); }
+  .kv-key.red { color: var(--accent5); }
+
+  .kv-val { color: var(--text); font-size: 12px; }
+
+  /* Flow diagrams */
+  .flow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 6px 0;
+  }
+
+  .flow-node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .flow-node.accent { border-color: var(--accent); color: var(--accent); background: rgba(0,212,255,0.07); }
+  .flow-node.purple { border-color: #7c3aed; color: #a78bfa; background: rgba(124,58,237,0.07); }
+  .flow-node.green { border-color: var(--accent3); color: var(--accent3); background: rgba(16,185,129,0.07); }
+  .flow-node.amber { border-color: var(--accent4); color: var(--accent4); background: rgba(245,158,11,0.07); }
+  .flow-node.red { border-color: var(--accent5); color: var(--accent5); background: rgba(239,68,68,0.07); }
+
+  .flow-arrow { color: var(--muted); font-size: 14px; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+  }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+  .box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 8px 10px;
+  }
+
+  .box-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    color: var(--accent);
+  }
+
+  .box-title.purple { color: #a78bfa; }
+  .box-title.green { color: var(--accent3); }
+  .box-title.amber { color: var(--accent4); }
+  .box-title.red { color: var(--accent5); }
+
+  .pill-list { display: flex; flex-wrap: wrap; gap: 4px; }
+  .pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px 9px;
+    font-size: 11px;
+    color: var(--text);
+  }
+
+  .formula {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 6px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent3);
+    margin: 5px 0;
+  }
+
+  .bullet-list { display: flex; flex-direction: column; gap: 3px; }
+  .bullet-item {
+    display: flex;
+    gap: 7px;
+    align-items: baseline;
+    font-size: 12px;
+  }
+  .bullet-dot { color: var(--accent); flex-shrink: 0; }
+  .bullet-dot.purple { color: #a78bfa; }
+  .bullet-dot.green { color: var(--accent3); }
+  .bullet-dot.amber { color: var(--accent4); }
+  .bullet-dot.red { color: var(--accent5); }
+
+  .vs-table { width: 100%; border-collapse: collapse; }
+  .vs-table th {
+    background: var(--surface2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 5px 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .vs-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid rgba(30,45,69,0.5);
+    font-size: 11px;
+    vertical-align: top;
+  }
+  .vs-table tr:hover td { background: var(--surface2); }
+
+  .section-header {
+    grid-column: span 3;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    padding: 8px 0 4px;
+    border-bottom: 1px solid var(--border);
+    margin-top: 4px;
+  }
+
+  .interview-answer {
+    background: rgba(0,212,255,0.04);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 5px 5px 0;
+    padding: 7px 10px;
+    font-size: 11.5px;
+    color: #cbd5e1;
+    font-style: italic;
+    margin-top: 7px;
+    line-height: 1.6;
+  }
+
+  .highlight { color: var(--accent); font-weight: 700; font-style: normal; }
+  .h-green { color: var(--accent3); font-weight: 700; font-style: normal; }
+  .h-amber { color: var(--accent4); font-weight: 700; font-style: normal; }
+  .h-purple { color: #a78bfa; font-weight: 700; font-style: normal; }
+  .h-red { color: var(--accent5); font-weight: 700; font-style: normal; }
+
+  /* Architecture diagrams */
+  .arch-diagram {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    margin: 8px 0;
+  }
+
+  .arch-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 4px 0;
+    flex-wrap: wrap;
+  }
+
+  .arch-node {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 5px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .arch-node.c-blue { border-color: var(--accent); color: var(--accent); }
+  .arch-node.c-purple { border-color: #7c3aed; color: #a78bfa; }
+  .arch-node.c-green { border-color: var(--accent3); color: var(--accent3); }
+  .arch-node.c-amber { border-color: var(--accent4); color: var(--accent4); }
+  .arch-node.c-red { border-color: var(--accent5); color: var(--accent5); }
+  .arch-node.c-cyan { border-color: #06b6d4; color: #67e8f9; }
+
+  .arch-arrow { color: var(--muted); font-size: 16px; }
+  .arch-arrow-down { display: flex; justify-content: center; color: var(--muted); font-size: 16px; margin: 2px 0; }
+
+  .branch {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 4px 0;
+  }
+
+  .decision-diamond {
+    background: rgba(245,158,11,0.1);
+    border: 1px solid var(--accent4);
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent4);
+    text-align: center;
+  }
+
+  .small { font-size: 10px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<div class="page-title">⚡ Gen AI Interview Cheat Sheet</div>
+<div class="page-subtitle">// Complete reference — architectures, formulas, frameworks, glossary</div>
+
+<div class="grid">
+
+  <!-- ───────────────── SECTION 1: FOUNDATIONS ───────────────── -->
+  <div class="section-header">① Foundational Architecture</div>
+
+  <!-- Traditional vs Gen AI -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-blue">CONCEPT</span> Traditional AI vs Gen AI</div>
+    <div class="two-col">
+      <div class="box">
+        <div class="box-title">Traditional AI</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><span class="bullet-dot">▸</span>Discriminative models</div>
+          <div class="bullet-item"><span class="bullet-dot">▸</span>Labeled data → prediction</div>
+          <div class="bullet-item"><span class="bullet-dot">▸</span>Classification, regression</div>
+          <div class="bullet-item"><span class="bullet-dot">▸</span>XGBoost, Random Forest, CNN</div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-title purple">Generative AI</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><span class="bullet-dot purple">▸</span>Generative models</div>
+          <div class="bullet-item"><span class="bullet-dot purple">▸</span>Learns data distribution</div>
+          <div class="bullet-item"><span class="bullet-dot purple">▸</span>Creates new content</div>
+          <div class="bullet-item"><span class="bullet-dot purple">▸</span>Transformer (GPT, BERT)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transformer Architecture -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-purple">ARCH</span> Transformer Types</div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key">Encoder-only</span>
+        <span class="kv-val">BERT — bidirectional, classification, NER, embeddings</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key">Decoder-only</span>
+        <span class="kv-val">GPT — autoregressive generation, next-token prediction</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key">Encoder-Decoder</span>
+        <span class="kv-val">T5, BART — seq2seq, translation, summarization</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="formula">Attention(Q,K,V) = softmax(QKᵀ / √d_k) · V</div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key">Complexity</span>
+        <span class="kv-val">O(n²) time & memory — bottleneck for long sequences</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key">Flash Attention</span>
+        <span class="kv-val">Same math, GPU tiling trick — 2-4x faster, fits 10x longer seq</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LLM Sampling Parameters -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-amber">PARAMS</span> LLM Sampling Controls</div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key amber">Temperature</span>
+        <span class="kv-val">0 = deterministic | 1 = creative. Scales logit distribution.</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key amber">Top-K</span>
+        <span class="kv-val">Only sample from K most probable next tokens (K=50 typical)</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key amber">Top-P (nucleus)</span>
+        <span class="kv-val">Sample from tokens whose cumulative prob ≥ P. Adaptive K.</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key amber">Max Tokens</span>
+        <span class="kv-val">Hard limit on output length. Controls cost.</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="small">Factual queries: temp=0, Top-P=1. Creative: temp=0.7–1.0</div>
+  </div>
+
+  <!-- ───────────────── SECTION 2: RAG ARCHITECTURE ───────────────── -->
+  <div class="section-header">② RAG Architecture & Flows</div>
+
+  <!-- RAG Pipeline Diagram -->
+  <div class="card col-2">
+    <div class="card-title"><span class="tag tag-blue">DIAGRAM</span> Basic RAG Pipeline</div>
+    <div class="arch-diagram">
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:6px;">── OFFLINE: INDEXING PHASE ──────────────────────────</div>
+      <div class="arch-row">
+        <div class="arch-node c-blue">📄 Raw Docs<br/><span style="font-size:9px;color:var(--muted)">PDF/HTML/DB</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-amber">OCR / Parse<br/><span style="font-size:9px;color:var(--muted)">Textract/pypdf</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-amber">Chunker<br/><span style="font-size:9px;color:var(--muted)">256–1024 tokens</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-purple">Embedding Model<br/><span style="font-size:9px;color:var(--muted)">text-embedding-ada</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-green">Vector DB<br/><span style="font-size:9px;color:var(--muted)">Pinecone/Qdrant</span></div>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--muted); margin:8px 0 6px;">── ONLINE: QUERY PHASE ──────────────────────────────</div>
+      <div class="arch-row">
+        <div class="arch-node c-cyan">👤 User Query</div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-purple">Embed Query<br/><span style="font-size:9px;color:var(--muted)">same model</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-green">ANN Search<br/><span style="font-size:9px;color:var(--muted)">Top-K chunks</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-amber">[Optional]<br/>Reranker</div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-blue">LLM Prompt<br/><span style="font-size:9px;color:var(--muted)">query + chunks</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-cyan">✅ Response</div>
+      </div>
+    </div>
+    <div class="kv-list" style="margin-top:6px;">
+      <div class="kv-row">
+        <span class="kv-key">Solves</span>
+        <span class="kv-val">Hallucination + knowledge cutoff + private data access</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key">vs Fine-Tune</span>
+        <span class="kv-val">RAG = updatable external knowledge | Fine-tune = baked-in behavior</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agentic RAG -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-purple">DIAGRAM</span> Agentic RAG</div>
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div class="arch-node c-cyan">User Query</div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-purple">LLM Planner</div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-amber">Decide: need more info?</div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="branch">
+        <div class="arch-node c-green">Search VectorDB</div>
+        <div class="arch-node c-blue">Web Search</div>
+        <div class="arch-node c-amber">SQL Query</div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-purple">LLM: Sufficient?</div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-cyan">Loop back ↑</div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-green">✅ Final Response</div>
+      </div>
+    </div>
+    <div class="small" style="margin-top:4px;">Basic RAG: one retrieval. Agentic RAG: iterative, multi-source, LLM decides when done</div>
+  </div>
+
+  <!-- ───────────────── SECTION 3: AGENT ARCHITECTURES ───────────────── -->
+  <div class="section-header">③ Agentic AI Architectures</div>
+
+  <!-- ReAct Loop -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-purple">DIAGRAM</span> ReAct Framework Loop</div>
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div class="arch-node c-cyan">Goal / Query</div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-purple">💭 THOUGHT<br/><span style="font-size:9px;">"What do I need?"</span></div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-blue">⚡ ACTION<br/><span style="font-size:9px;">tool_call(params)</span></div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-green">👁 OBSERVATION<br/><span style="font-size:9px;">tool result returned</span></div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-amber">Done?</div>
+        <div class="arch-arrow">──No──→</div>
+        <div class="arch-node c-purple">💭 THOUGHT again</div>
+      </div>
+      <div class="arch-arrow-down">↓ Yes</div>
+      <div class="arch-row">
+        <div class="arch-node c-cyan">Final Answer</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Agent Architecture -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-blue">DIAGRAM</span> Multi-Agent: Planner + Executors</div>
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div class="arch-node c-cyan">User Goal</div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-amber" style="border-width:2px;">🧠 PLANNER<br/><span style="font-size:9px;">stateful, decomposes goal</span></div>
+      </div>
+      <div class="arch-arrow-down">↓ dispatches subtasks</div>
+      <div class="branch">
+        <div class="arch-node c-blue">Exec 1<br/><span style="font-size:9px;">web_search</span></div>
+        <div class="arch-node c-purple">Exec 2<br/><span style="font-size:9px;">code_runner</span></div>
+        <div class="arch-node c-green">Exec 3<br/><span style="font-size:9px;">db_query</span></div>
+      </div>
+      <div class="arch-arrow-down">↓ results return to planner</div>
+      <div class="arch-row">
+        <div class="arch-node c-amber">Planner: synthesize</div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-cyan">Response</div>
+      </div>
+    </div>
+    <div class="small" style="margin-top:4px;">Planner = stateful brain. Executors = stateless, parallelizable, replaceable.</div>
+  </div>
+
+  <!-- Andrew Ng's 4 Patterns -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-green">FRAMEWORK</span> Andrew Ng's 4 Agentic Patterns</div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key green">1. Reflection</span>
+        <span class="kv-val">LLM reviews its own output and iterates — improves quality significantly</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key green">2. Tool Use</span>
+        <span class="kv-val">LLM calls external functions via JSON function-calling API</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key green">3. Planning</span>
+        <span class="kv-val">Decompose complex goal into subtasks before executing (ReAct)</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key green">4. Multi-Agent</span>
+        <span class="kv-val">Specialized agents collaborate — parallelism + failure isolation</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────── SECTION 4: SYSTEM DESIGNS ───────────────── -->
+  <div class="section-header">④ Key System Design Architectures</div>
+
+  <!-- 100K Concurrent Users -->
+  <div class="card col-2">
+    <div class="card-title"><span class="tag tag-amber">DESIGN</span> Gen AI at 100K Concurrent Users</div>
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div class="arch-node c-cyan">100K Users</div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-blue">API Gateway<br/><span style="font-size:9px;">rate limit + auth</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-green">Semantic Cache<br/><span style="font-size:9px;">40-60% hit rate</span></div>
+      </div>
+      <div class="arch-arrow-down">↓ cache miss</div>
+      <div class="arch-row">
+        <div class="arch-node c-amber">Message Queue<br/><span style="font-size:9px;">Kafka/SQS</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-purple">LLM Serving Pool<br/><span style="font-size:9px;">vLLM + PagedAttention</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-blue">SSE Streaming<br/><span style="font-size:9px;">token by token</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-cyan">User sees TTFT &lt;1s</div>
+      </div>
+    </div>
+    <div class="three-col" style="margin-top:8px;">
+      <div class="box">
+        <div class="box-title">Caching Layers</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><span class="bullet-dot">▸</span>Semantic (embedding similarity)</div>
+          <div class="bullet-item"><span class="bullet-dot">▸</span>KV cache (GPU prefix reuse)</div>
+          <div class="bullet-item"><span class="bullet-dot">▸</span>Tool result cache (TTL-based)</div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-title red">Circuit Breaker</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><span class="bullet-dot red">▸</span>Closed → normal flow</div>
+          <div class="bullet-item"><span class="bullet-dot red">▸</span>Open → fail fast + fallback</div>
+          <div class="bullet-item"><span class="bullet-dot red">▸</span>Half-open → test recovery</div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-title amber">Cost Levers</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><span class="bullet-dot amber">▸</span>Route: simple→cheap model</div>
+          <div class="bullet-item"><span class="bullet-dot amber">▸</span>Batch API: 50% cheaper</div>
+          <div class="bullet-item"><span class="bullet-dot amber">▸</span>Quantize self-hosted models</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RLHF Pipeline -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-purple">DIAGRAM</span> RLHF Pipeline</div>
+    <div class="arch-diagram">
+      <div class="arch-row">
+        <div class="arch-node c-blue">Base LLM<br/><span style="font-size:9px;">pre-trained</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-green">Step 1: SFT<br/><span style="font-size:9px;">human ideal responses</span></div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-amber">Step 2: Reward Model<br/><span style="font-size:9px;">trained on human rankings</span></div>
+      </div>
+      <div class="arch-arrow-down">↓</div>
+      <div class="arch-row">
+        <div class="arch-node c-purple">Step 3: PPO RL<br/><span style="font-size:9px;">maximize reward + KL penalty</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node c-cyan">Aligned LLM<br/><span style="font-size:9px;">helpful + harmless</span></div>
+      </div>
+    </div>
+    <div class="small" style="margin-top:4px;">Modern: DPO skips RM+PPO — directly fine-tunes on preference pairs</div>
+  </div>
+
+  <!-- ───────────────── SECTION 5: FINE-TUNE vs RAG ───────────────── -->
+  <div class="section-header">⑤ Fine-Tuning vs RAG Decision Framework</div>
+
+  <div class="card col-2">
+    <div class="card-title"><span class="tag tag-green">DECISION</span> When to Use What</div>
+    <table class="vs-table">
+      <tr>
+        <th>Factor</th>
+        <th style="color:var(--accent)">Use RAG</th>
+        <th style="color:#a78bfa">Use Fine-Tuning</th>
+      </tr>
+      <tr>
+        <td>Knowledge type</td>
+        <td>External, factual, updatable</td>
+        <td>Behavioral, stylistic, format</td>
+      </tr>
+      <tr>
+        <td>Data freshness</td>
+        <td>Changes frequently</td>
+        <td>Stable domain knowledge</td>
+      </tr>
+      <tr>
+        <td>Data availability</td>
+        <td>No labeled training data</td>
+        <td>Have domain examples</td>
+      </tr>
+      <tr>
+        <td>Output format</td>
+        <td>Variable, natural language</td>
+        <td>Strict schema / specific style</td>
+      </tr>
+      <tr>
+        <td>Hallucination risk</td>
+        <td>Lower (grounded in docs)</td>
+        <td>Higher (knowledge in weights)</td>
+      </tr>
+      <tr>
+        <td>Update cost</td>
+        <td>Re-index documents (cheap)</td>
+        <td>Re-train model (expensive)</td>
+      </tr>
+      <tr>
+        <td>Inference latency</td>
+        <td>+retrieval latency overhead</td>
+        <td>Lower (no retrieval step)</td>
+      </tr>
+    </table>
+    <div class="interview-answer">
+      <span class="highlight">Best of both:</span> Fine-tune for domain terminology + output format. Add RAG for grounding in facts. This is the production pattern for enterprise AI.
+    </div>
+  </div>
+
+  <!-- Fine-Tuning Methods -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-purple">METHODS</span> Fine-Tuning Techniques</div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key">Full Fine-Tune</span>
+        <span class="kv-val">All weights updated. Risk: catastrophic forgetting.</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key purple">LoRA</span>
+        <span class="kv-val">Train small rank-decomposed matrices A·B alongside frozen weights. 10,000x fewer params.</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key purple">QLoRA</span>
+        <span class="kv-val">LoRA + 4-bit quantization. Fine-tune 65B model on 1 consumer GPU.</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key">DPO</span>
+        <span class="kv-val">Skip reward model — directly train on (preferred, rejected) pairs.</span>
+      </div>
+    </div>
+    <div class="formula">LoRA: W' = W₀ + α·(A·B) — only A, B trained</div>
+  </div>
+
+  <!-- ───────────────── SECTION 6: VECTOR DBs & SIMILARITY ───────────────── -->
+  <div class="section-header">⑥ Vector Databases & Similarity Search</div>
+
+  <!-- Vector DB Comparison -->
+  <div class="card col-2">
+    <div class="card-title"><span class="tag tag-blue">COMPARISON</span> Vector Database Options</div>
+    <table class="vs-table">
+      <tr>
+        <th>Database</th>
+        <th>Best For</th>
+        <th>Hosting</th>
+        <th>Scale</th>
+        <th>Strength</th>
+      </tr>
+      <tr>
+        <td><span style="color:var(--accent); font-weight:700;">Pinecone</span></td>
+        <td>Production, managed</td>
+        <td>Cloud only</td>
+        <td>Billions</td>
+        <td>Zero-ops, fast setup</td>
+      </tr>
+      <tr>
+        <td><span style="color:#a78bfa; font-weight:700;">Weaviate</span></td>
+        <td>Hybrid search + filtering</td>
+        <td>Self/Cloud</td>
+        <td>100M+</td>
+        <td>BM25 + vector hybrid</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--accent3); font-weight:700;">Qdrant</span></td>
+        <td>High perf, advanced filter</td>
+        <td>Self/Cloud</td>
+        <td>100M+</td>
+        <td>Best filtering, Rust-based</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--accent4); font-weight:700;">pgvector</span></td>
+        <td>Existing Postgres infra</td>
+        <td>Self-hosted</td>
+        <td>&lt;10M</td>
+        <td>SQL + vectors unified</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--muted);">ChromaDB</span></td>
+        <td>Prototyping / local dev</td>
+        <td>Local</td>
+        <td>&lt;1M</td>
+        <td>Zero config, Python-native</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--muted);">FAISS</span></td>
+        <td>Research, in-memory</td>
+        <td>Library</td>
+        <td>Millions</td>
+        <td>Fastest in-memory ANN</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Similarity Metrics -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-green">MATH</span> Distance Metrics</div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key green">Cosine Sim</span>
+        <span class="kv-val">Angle between vectors. Range -1 to 1. Best for text — magnitude-invariant.</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key green">Dot Product</span>
+        <span class="kv-val">Similar to cosine but magnitude matters. Use with normalized vectors.</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key">Euclidean (L2)</span>
+        <span class="kv-val">Geometric distance. Less common for NLP embeddings.</span>
+      </div>
+    </div>
+    <div class="formula">cos(θ) = (A·B) / (|A|·|B|)</div>
+    <div class="kv-list" style="margin-top:6px;">
+      <div class="kv-row">
+        <span class="kv-key">HNSW</span>
+        <span class="kv-val">Graph-based ANN index — best speed/recall trade-off</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key">IVF</span>
+        <span class="kv-val">Cluster-based ANN — better for very large datasets</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───────────────── SECTION 7: EVALUATION ───────────────── -->
+  <div class="section-header">⑦ Evaluation & Metrics</div>
+
+  <!-- Evaluation framework -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-green">EVALS</span> Gen AI Evaluation Pyramid</div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key amber">Infrastructure</span>
+        <span class="kv-val">Latency (TTFT), throughput, error rate, cost/request</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key green">RAG Quality</span>
+        <span class="kv-val">Faithfulness + Answer Relevance + Context Relevance (RAGAS)</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key purple">LLM-as-Judge</span>
+        <span class="kv-val">GPT-4/Claude scores outputs on rubric — practical at scale</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key">Human Eval</span>
+        <span class="kv-val">Domain experts — non-negotiable for medical/legal/regulated domains</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Precision vs Recall -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-amber">METRICS</span> Precision vs Recall Trade-off</div>
+    <div class="formula">Precision = TP / (TP + FP) — of flagged, how many correct?</div>
+    <div class="formula">Recall = TP / (TP + FN) — of all real, how many caught?</div>
+    <div class="formula">F1 = 2·P·R / (P+R) — harmonic mean</div>
+    <div class="divider"></div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key red">High Recall</span>
+        <span class="kv-val">Catch all cheaters (accept some false accusations)</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key green">High Precision</span>
+        <span class="kv-val">Only flag when certain (miss some cheaters)</span>
+      </div>
+    </div>
+    <div class="small" style="margin-top:4px;">Use cost ratio C(FP)/C(FN) to determine operating threshold</div>
+  </div>
+
+  <!-- Hallucination types -->
+  <div class="card">
+    <div class="card-title"><span class="tag tag-red">SAFETY</span> Hallucination Types & Fixes</div>
+    <div class="kv-list">
+      <div class="kv-row">
+        <span class="kv-key red">Intrinsic</span>
+        <span class="kv-val">Response contradicts the provided source document</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key red">Extrinsic</span>
+        <span class="kv-val">Response adds info not in context (may still be factual)</span>
+      </div>
+      <div class="kv-row">
+        <span class="kv-key red">Functional</span>
+        <span class="kv-val">Agent fabricates tool call results (agentic hallucination)</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="pill-list">
+      <span class="pill">RAG + citations</span>
+      <span class="pill">Faithfulness checker (NLI)</span>
+      <span class="pill">Temp=0 for factual</span>
+      <span class="pill">Confidence threshold</span>
+    </div>
+  </div>
+
+  <!-- ───────────────── SECTION 8: FRAMEWORKS ───────────────── -->
+  <div class="section-header">⑧ LLM Frameworks & Tools</div>
+
+  <div class="card col-3">
+    <div class="card-title"><span class="tag tag-purple">FRAMEWORKS</span> LangChain vs LangGraph vs AutoGen vs CrewAI</div>
+    <table class="vs-table">
+      <tr>
+        <th>Framework</th>
+        <th>Paradigm</th>
+        <th>Best For</th>
+        <th>Control Flow</th>
+        <th>State</th>
+      </tr>
+      <tr>
+        <td><span style="color:var(--accent); font-weight:700;">LangChain</span></td>
+        <td>Sequential chains + tools</td>
+        <td>RAG pipelines, simple agents</td>
+        <td>Implicit chain</td>
+        <td>Limited</td>
+      </tr>
+      <tr>
+        <td><span style="color:#a78bfa; font-weight:700;">LangGraph</span></td>
+        <td>Explicit state machine (graph with cycles)</td>
+        <td>Complex stateful multi-step agents, human-in-loop</td>
+        <td>Graph nodes + edges</td>
+        <td>Explicit, typed</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--accent3); font-weight:700;">AutoGen</span></td>
+        <td>Multi-agent conversation</td>
+        <td>Code gen + execution, research loops</td>
+        <td>Agent dialogue</td>
+        <td>Per-agent</td>
+      </tr>
+      <tr>
+        <td><span style="color:var(--accent4); font-weight:700;">CrewAI</span></td>
+        <td>Role-based agent crews</td>
+        <td>Business process with specialist agents</td>
+        <td>Sequential/hierarchical</td>
+        <td>Crew-level</td>
+      </tr>
+    </table>
+    <div class="interview-answer">
+      <span class="highlight">Quick decision:</span> RAG/simple = LangChain. Stateful complex agent = <span class="h-purple">LangGraph</span>. Code-generating multi-agent = <span class="h-green">AutoGen</span>. Business roles = <span class="h-amber">CrewAI</span>.
+    </div>
+  </div>
+
+  <!-- ───────────────── SECTION 9: ML FUNDAMENTALS ───────────────── -->
+  <div class="section-header">⑨ ML Fundamentals (Data Science Round)</div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-blue">ML</span> Bias vs Variance</div>
+    <div class="two-col">
+      <div class="box">
+        <div class="box-title">High Bias = Underfitting</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><span class="bullet-dot">▸</span>Model too simple</div>
+          <div class="bullet-item"><span class="bullet-dot">▸</span>Poor train + test accuracy</div>
+          <div class="bullet-item"><span class="bullet-dot">▸</span>Fix: more features, complex model</div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-title red">High Variance = Overfitting</div>
+        <div class="bullet-list">
+          <div class="bullet-item"><span class="bullet-dot red">▸</span>Model memorizes noise</div>
+          <div class="bullet-item"><span class="bullet-dot red">▸</span>Good train, bad test</div>
+          <div class="bullet-item"><span class="bullet-dot red">▸</span>Fix: regularization, more data</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-green">ML</span> Random Forest</div>
+    <div class="bullet-list">
+      <div class="bullet-item"><span class="bullet-dot green">▸</span>Ensemble of decision trees — each trained on a random bootstrap sample of data (bagging)</div>
+      <div class="bullet-item"><span class="bullet-dot green">▸</span>Each split considers only a random subset of features (feature randomness)</div>
+      <div class="bullet-item"><span class="bullet-dot green">▸</span>Prediction = majority vote (classification) or mean (regression)</div>
+      <div class="bullet-item"><span class="bullet-dot green">▸</span>Reduces variance without increasing bias — uncorrelated errors cancel</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-amber">ML</span> R² vs Adjusted R²</div>
+    <div class="formula">R² = 1 - SS_res / SS_tot  [0 to 1, higher = better]</div>
+    <div class="formula">Adj R² = 1 - (1-R²)(n-1)/(n-p-1)  [penalizes extra features]</div>
+    <div class="bullet-list" style="margin-top:6px;">
+      <div class="bullet-item"><span class="bullet-dot amber">▸</span><strong>R²</strong> always increases when you add features — even if they're noise</div>
+      <div class="bullet-item"><span class="bullet-dot amber">▸</span><strong>Adjusted R²</strong> decreases if new feature doesn't improve the model</div>
+      <div class="bullet-item"><span class="bullet-dot amber">▸</span>Always use Adjusted R² when comparing models with different feature counts</div>
+    </div>
+  </div>
+
+  <!-- ───────────────── SECTION 10: MONITORING & PRODUCTION ───────────────── -->
+  <div class="section-header">⑩ Production: Monitoring, Safety, Multi-Tenancy</div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-blue">MONITORING</span> What to Measure</div>
+    <div class="kv-list">
+      <div class="kv-row"><span class="kv-key">TTFT</span><span class="kv-val">Time to First Token — perceived latency for streaming</span></div>
+      <div class="kv-row"><span class="kv-key">Token cost</span><span class="kv-val">Prompt + completion tokens per session — primary cost driver</span></div>
+      <div class="kv-row"><span class="kv-key green">Faithfulness</span><span class="kv-val">LLM-as-judge: is response grounded in retrieved context?</span></div>
+      <div class="kv-row"><span class="kv-key green">Retrieval score</span><span class="kv-val">Avg cosine similarity of retrieved chunks — detect RAG drift</span></div>
+      <div class="kv-row"><span class="kv-key amber">Cache hit rate</span><span class="kv-val">% of queries served from semantic cache</span></div>
+      <div class="kv-row"><span class="kv-key red">Escalation rate</span><span class="kv-val">% routed to human agent — proxy for AI failure rate</span></div>
+    </div>
+    <div class="small" style="margin-top:4px;">Tools: LangSmith · Langfuse · Arize · Datadog LLM Observability</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-red">SAFETY</span> Agentic AI Safety Checklist</div>
+    <div class="kv-list">
+      <div class="kv-row"><span class="kv-key red">Least Privilege</span><span class="kv-val">Agent gets only tools needed for its task</span></div>
+      <div class="kv-row"><span class="kv-key red">Tool Risk Tiers</span><span class="kv-val">Read-only → auto | Write reversible → confirm | Irreversible → human approval</span></div>
+      <div class="kv-row"><span class="kv-key red">Max Iterations</span><span class="kv-val">Hard limit on agent loop iterations — prevent infinite loops</span></div>
+      <div class="kv-row"><span class="kv-key red">Sandboxed Exec</span><span class="kv-val">All code execution in isolated Docker — never on host</span></div>
+      <div class="kv-row"><span class="kv-key red">Audit Logs</span><span class="kv-val">Every tool call logged: agent + params + timestamp + result</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-amber">PROD</span> Multi-Tenancy Requirements</div>
+    <div class="kv-list">
+      <div class="kv-row"><span class="kv-key amber">Data Isolation</span><span class="kv-val">Vector DB namespace per tenant — no cross-tenant retrieval ever</span></div>
+      <div class="kv-row"><span class="kv-key amber">Rate Limiting</span><span class="kv-val">Per-tenant token quota at API gateway</span></div>
+      <div class="kv-row"><span class="kv-key amber">LoRA Adapters</span><span class="kv-val">Per-tenant fine-tuning without separate model instances</span></div>
+      <div class="kv-row"><span class="kv-key amber">Cost Attribution</span><span class="kv-val">Track compute + tokens per tenant for billing</span></div>
+      <div class="kv-row"><span class="kv-key amber">Data Residency</span><span class="kv-val">EU tenants: data must stay in EU region</span></div>
+    </div>
+  </div>
+
+  <!-- ───────────────── SECTION 11: MINI GLOSSARY ───────────────── -->
+  <div class="section-header">⑪ Flash Glossary — 60 Key Terms</div>
+
+  <div class="card col-3">
+    <div class="card-title"><span class="tag tag-blue">GLOSSARY</span> Every Term You'll Hear</div>
+    <div style="display:grid; grid-template-columns: repeat(3,1fr); gap: 3px;">
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Token</span><span class="kv-val">~3/4 of a word. LLMs work in tokens, not characters.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Embedding</span><span class="kv-val">Dense semantic vector. "car" ≈ "automobile" in space.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Context Window</span><span class="kv-val">Max tokens LLM can see. GPT-4=128K, Claude=200K.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">RAG</span><span class="kv-val">Retrieve docs → inject in prompt → grounded answer.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Hallucination</span><span class="kv-val">LLM confidently generates false content.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Fine-Tuning</span><span class="kv-val">Continue training on domain data. LoRA = efficient.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">RLHF</span><span class="kv-val">Human rankings → reward model → PPO alignment.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">DPO</span><span class="kv-val">Direct Preference Optimization. Simpler than RLHF.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Prompt Injection</span><span class="kv-val">Malicious input overrides system prompt.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">CoT</span><span class="kv-val">Chain-of-Thought: "think step by step" improves reasoning.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Flash Attention</span><span class="kv-val">GPU tiling trick. Same O(n²) math, 2-4x faster.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">HNSW</span><span class="kv-val">Graph-based ANN index. Fast nearest-neighbor lookup.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Chunking</span><span class="kv-val">Split docs into 256-1024 token pieces for embedding.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Reranking</span><span class="kv-val">Cross-encoder reorders top-K results by true relevance.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">ReAct</span><span class="kv-val">Reason+Act loop: Thought→Action→Observation→repeat.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">LangGraph</span><span class="kv-val">Graph-based agent state machine. Best for complex agents.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Semantic Cache</span><span class="kv-val">Cache by embedding similarity. 40-60% LLM call reduction.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">KV Cache</span><span class="kv-val">GPU reuses attention tensors for shared prompt prefix.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">TTFT</span><span class="kv-val">Time to First Token. UX latency metric for streaming.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Circuit Breaker</span><span class="kv-val">Stops requests to failing service. Prevents cascades.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Least Privilege</span><span class="kv-val">Agent gets minimum permissions needed. Security rule #1.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">RAGAS</span><span class="kv-val">RAG eval: faithfulness + answer relevance + context rel.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">LLM-as-Judge</span><span class="kv-val">Use GPT-4 to score another LLM's outputs on a rubric.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Model Drift</span><span class="kv-val">Quality degrades over time. Monitor + pin model versions.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">NLI</span><span class="kv-val">Natural Language Inference. Used for faithfulness checks.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">SLM</span><span class="kv-val">Small LM (&lt;10B params). Cheaper, faster, on-device.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">BPE</span><span class="kv-val">Byte Pair Encoding. How GPT tokenizes text.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">YOLO</span><span class="kv-val">Single-pass object detection. Output: class+confidence+bbox.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Diffusion Model</span><span class="kv-val">Learn to reverse noise. Stable Diffusion, DALL-E.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">LoRA</span><span class="kv-val">Low-Rank Adaptation. W' = W₀ + A·B. 10000x fewer params.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Quantization</span><span class="kv-val">32-bit→4-bit weights. QLoRA = fine-tune on consumer GPU.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">vLLM</span><span class="kv-val">PagedAttention serving — continuous batching, high GPU util.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">SSE</span><span class="kv-val">Server-Sent Events. One-way HTTP stream. Used for token streaming.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">WebSocket</span><span class="kv-val">Full-duplex persistent TCP. Both sides push anytime.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Planner Agent</span><span class="kv-val">Stateful brain. Decomposes goals, coordinates executors.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Executor Agent</span><span class="kv-val">Stateless worker. Does one task, returns result.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Positional Enc.</span><span class="kv-val">Injects sequence position into Transformers. No built-in order.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Multi-Head Attn</span><span class="kv-val">Run attention in parallel with different projections.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">BM25</span><span class="kv-val">Keyword-based ranking. Use with vector for hybrid search.</span></div>
+      <div class="kv-row"><span class="kv-key" style="min-width:100px;">Perplexity</span><span class="kv-val">LM surprise metric. Lower = model assigns higher probability.</span></div>
+    </div>
+  </div>
+
+  <!-- Quick Interview answers section -->
+  <div class="section-header">⑫ 60-Second Interview Answers</div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-blue">ANSWER</span> What is RAG? (30 sec)</div>
+    <div class="interview-answer">
+      "<span class="highlight">RAG grounds LLM responses in external documents</span>. Offline: chunk docs → embed → store in vector DB. Online: embed query → cosine similarity search → inject top-K chunks into LLM prompt. This solves hallucination and knowledge cutoff without retraining."
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-purple">ANSWER</span> What is Agentic AI? (30 sec)</div>
+    <div class="interview-answer">
+      "<span class="h-purple">An agent uses an LLM as a reasoning engine that autonomously plans, calls tools, and iterates until a goal is achieved</span> — not just responding to single prompts. Key patterns: ReAct (think-act-observe loop), tool use via function calling, and multi-agent orchestration with planner + executor separation."
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="tag tag-green">ANSWER</span> Fine-Tune vs RAG? (30 sec)</div>
+    <div class="interview-answer">
+      "<span class="h-green">RAG for knowledge, fine-tuning for behavior</span>. RAG when you need access to updatable external facts — easy to maintain. Fine-tune when you need consistent output format, domain terminology, or task-specific style that doesn't change frequently. Best production pattern: fine-tune for behavior + RAG for factual grounding."
+    </div>
+  </div>
+
+</div>
+
+<div style="text-align:center; margin-top:24px; color:var(--muted); font-family:'JetBrains Mono',monospace; font-size:11px;">
+  ⚡ Generated for Gen AI Interview Prep · Complete guide in GenAI_Interview_Prep_Guide.md
+</div>
+
+</body>
+</html>
