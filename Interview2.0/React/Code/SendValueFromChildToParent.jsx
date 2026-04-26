@@ -51,7 +51,7 @@ const ResetBtn = ({ onReset }) => {
 }
 
 // Parent — single source of truth for count
-const App = () => {
+const Parent = () => {
   const [count, setCount] = useState(0);
 
   return (
@@ -66,4 +66,4 @@ const App = () => {
   );
 }
 
-export default App;
+// export default Parent;
