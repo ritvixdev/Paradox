@@ -27,9 +27,6 @@ const App = () => {
 export default App;
 
 
-
-
-
 // ============ COUNTER Child to Parent Example =====================
 
 
