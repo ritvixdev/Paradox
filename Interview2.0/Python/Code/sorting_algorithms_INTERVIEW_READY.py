@@ -159,7 +159,7 @@ TRACE EXAMPLE: [64, 25, 12, 22, 11]
 """
 
 def selection_sort(arr):
-    a = manual_copy(arr)
+    a = arr[:]
     n = len(a)
 
     for i in range(n):
@@ -228,7 +228,7 @@ TRACE EXAMPLE: [12, 11, 13, 5, 6]
 """
 
 def insertion_sort(arr):
-    a = manual_copy(arr)
+    a = arr[:]
 
     for i in range(1, len(a)):
         key = a[i]                               # element to be inserted
@@ -329,7 +329,7 @@ def _merge(left, right):
     return merged
 
 def merge_sort(arr):
-    a = manual_copy(arr)
+    a = arr[:]
 
     if len(a) <= 1:                              # base case: 0 or 1 element
         return a
